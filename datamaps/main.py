@@ -86,7 +86,7 @@ def report():
 )
 def templates(to_master):
     engine_config.initialise()
-    click.secho("Hello from bcompiler 2.0!", fg="yellow")
+    click.secho("Hello from datamaps 1.0!", fg="yellow")
     if to_master:
         try:
             engine_cli.import_and_create_master(echo_funcs=output_funcs)
