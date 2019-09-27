@@ -27,7 +27,7 @@ from engine.adapters import cli as engine_cli
 from engine.config import Config as engine_config
 from engine.use_cases.parsing import MalFormedCSVHeaderException
 
-logger = colorlog.getLogger("bcompiler")
+logger = colorlog.getLogger("datamaps")
 logger.setLevel(logging.INFO)
 
 # we want to pass echo func down to bcompiler-engine
@@ -52,7 +52,7 @@ pass_config = click.make_pass_decorator(Config, ensure=True)
 @pass_config
 def cli(config, verbose):
     """
-    bcompiler is a tool for moving data to and from spreadsheets. See web site, etc.
+    datamaps is a tool for moving data to and from spreadsheets. See web site, etc.
     """
     config.verbose = verbose
 
