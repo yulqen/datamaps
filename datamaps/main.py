@@ -24,6 +24,7 @@ import click
 
 import colorlog
 from click import version_option
+from datamaps import __version__
 
 from engine.adapters import cli as engine_cli
 from engine.config import Config as engine_config
@@ -49,7 +50,7 @@ class Config:
 pass_config = click.make_pass_decorator(Config, ensure=True)
 
 
-@version_option()
+@version_option(__version__)
 @click.group()
 @click.option("--verbose", is_flag=True)
 @pass_config
