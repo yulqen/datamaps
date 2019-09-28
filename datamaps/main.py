@@ -23,6 +23,8 @@ from functools import partial
 import click
 
 import colorlog
+from click import version_option
+
 from engine.adapters import cli as engine_cli
 from engine.config import Config as engine_config
 from engine.use_cases.parsing import MalFormedCSVHeaderException
@@ -47,6 +49,7 @@ class Config:
 pass_config = click.make_pass_decorator(Config, ensure=True)
 
 
+@version_option()
 @click.group()
 @click.option("--verbose", is_flag=True)
 @pass_config
