@@ -1,4 +1,6 @@
+import sys
+
 from datamaps.main import cli
 
 if __name__ == '__main__':
-    cli
+    cli(sys.argv[1:])
