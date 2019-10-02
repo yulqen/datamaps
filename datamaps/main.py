@@ -98,6 +98,12 @@ def templates(to_master):
         except MalFormedCSVHeaderException as e:
             click.echo(
                 click.style("Incorrect headers in datamap. {}.".format(e.args[0]), bold=True, reverse=True, fg="cyan"))
+        except KeyError as e:
+            if "Expected Sheet Missing" in e.args:
+                click.echo("Expected Sheet Missing: sheet Introduction in test_template.xlsm is expected from" \
+                           " datamap.csv. Not processing that file until fixed." \
+                           "Imported data from input/dft1_temp.xlsm to output/master.xlsx." \
+                           "Finished.")
     else:
         click.secho("Not implemented yet. Try --to-master/-m flag")
 
