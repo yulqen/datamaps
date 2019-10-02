@@ -89,6 +89,7 @@ def report():
     help="Create master.xlsx immediately",
 )
 def templates(to_master):
+    # TODO move this to cli()
     engine_config.initialise()
     click.secho("Hello from datamaps 1.0!", fg="yellow")
     if to_master:
