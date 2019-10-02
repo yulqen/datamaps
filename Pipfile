@@ -6,6 +6,11 @@ verify_ssl = true
 [dev-packages]
 pytest = "*"
 pyinstaller = "*"
+pdbpp = "*"
+ptipython = "*"
+pytest-sugar = "*"
+flake8 = "*"
+mypy = "*"
 
 [packages]
 openpyxl = "*"
