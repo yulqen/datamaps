@@ -5,9 +5,9 @@ import unicodedata
 from pathlib import Path
 from typing import List, Tuple, Iterable, Optional, Any
 
-from ..utils import project_data_from_master
-from ..process.cleansers import DATE_REGEX_4
-from .temporal import Quarter
+from datamaps.plugins.dft.portfolio import project_data_from_master
+from datamaps.process.cleansers import DATE_REGEX_4
+from datamaps.core.temporal import Quarter
 
 from openpyxl import load_workbook
 
@@ -80,13 +80,13 @@ def _convert_str_date_to_object(d_str: tuple) -> Tuple[str, Optional[datetime.da
 
 
 class Master:
-    """A Master object, representing the main central data item in ``bcompiler``.
+    """A Master object, representing the main central data item in ``datamaps``.
 
     Args:
         quarter (:py:class:`bcompiler.api.Quarter`): creating using ``Quarter(1, 2017)`` for example.
         path (str): path to the master xlsx file
 
-    A master object is a composition between a :py:class:`bcompiler.api.Quarter` object and an
+    A master object is a composition between a :py:class:`datamaps.api.Quarter` object and an
     actual master xlsx file on disk.
 
     You create one, either by creating the Quarter object first, and using that as the first

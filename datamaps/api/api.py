@@ -1,5 +1,5 @@
-from ..core import Master, Quarter
-
+from ..core import Quarter
+from ..plugins.dft.master import Master
 
 def project_data_from_master_api(master_file: str, quarter: int, year: int):
     """Create a Master object directly without the need to explicitly pass
