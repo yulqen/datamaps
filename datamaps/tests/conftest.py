@@ -1,8 +1,9 @@
 import os
 import shutil
+from pathlib import Path
 
 import pytest
-from pathlib import Path
+
 from engine.config import Config
 
 
@@ -36,4 +37,4 @@ def mock_config(monkeypatch):
 
 @pytest.fixture
 def resource_dir():
-    return Path.cwd() / "tests" / "resources"
+    return Path.cwd() / "datamaps" / "tests" / "resources"
