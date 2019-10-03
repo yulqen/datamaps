@@ -13,9 +13,7 @@ flake8 = "*"
 mypy = "*"
 
 [packages]
-openpyxl = "*"
 bcompiler-engine = {editable = true,path = "/home/lemon/code/python/bcompiler-engine"}
-colorlog = "*"
 python-dateutil = "*"
 click = "*"
 datamaps = {editable = true,path = "."}

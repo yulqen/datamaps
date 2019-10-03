@@ -59,7 +59,6 @@ setup(
     setup_requires=['wheel'],
     install_requires=[
         'click',
-        'colorlog',
         'python-dateutil',
         'bcompiler-engine @ https://github.com/hammerheadlemon/bcompiler-engine/archive/master.zip#egg=bcompiler-engine'
     ],

@@ -21,17 +21,17 @@ import logging
 from functools import partial
 
 import click
-
-import colorlog
 from click import version_option
-from datamaps import __version__
 
+from datamaps import __version__
 from engine.adapters import cli as engine_cli
 from engine.config import Config as engine_config
 from engine.use_cases.parsing import MalFormedCSVHeaderException
 
-logger = colorlog.getLogger("datamaps")
+logger = logging.getLogger(__name__)
 logger.setLevel(logging.INFO)
+
+be_logger = logging.getLogger("engine.use_cases.parsing")
 
 # we want to pass echo func down to bcompiler-engine
 output_funcs = dict(
@@ -100,9 +100,9 @@ def templates(to_master):
                 click.style("Incorrect headers in datamap. {}.".format(e.args[0]), bold=True, reverse=True, fg="cyan"))
         except KeyError as e:
             if "Expected Sheet Missing" in e.args:
-                click.echo("Expected Sheet Missing: sheet Introduction in test_template.xlsm is expected from" \
-                           " datamap.csv. Not processing that file until fixed." \
-                           "Imported data from input/dft1_temp.xlsm to output/master.xlsx." \
+                click.echo("Expected Sheet Missing: sheet Introduction in test_template.xlsm is expected from"
+                           " datamap.csv. Not processing that file until fixed."
+                           "Imported data from input/dft1_temp.xlsm to output/master.xlsx."
                            "Finished.")
     else:
         click.secho("Not implemented yet. Try --to-master/-m flag")

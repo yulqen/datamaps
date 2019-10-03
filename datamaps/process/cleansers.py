@@ -1,12 +1,12 @@
 import datetime
+import logging
 import re
 from datetime import date
 from operator import itemgetter
 
-import colorlog
 from dateutil.parser import parse
 
-logger = colorlog.getLogger("bcompiler.cleanser")
+logger = logging.getLogger("bcompiler.cleanser")
 
 ENDASH_REGEX = r"–"
 ENDASH_FIX = r"-"
