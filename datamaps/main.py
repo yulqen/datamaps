@@ -26,10 +26,13 @@ from click import version_option
 from datamaps import __version__
 from engine.adapters import cli as engine_cli
 from engine.config import Config as engine_config
-from engine.use_cases.parsing import MalFormedCSVHeaderException
+from engine.exceptions import (MalFormedCSVHeaderException,
+                               RemoveFileWithNoSheetRequiredByDatamap)
 
+logging.basicConfig(level=logging.INFO, format="%(asctime)s: %(levelname)s - %(message)s", datefmt='%d-%b-%y %H:%M:%S')
 logger = logging.getLogger(__name__)
-logger.setLevel(logging.INFO)
+
+
 
 be_logger = logging.getLogger("engine.use_cases.parsing")
 
@@ -91,19 +94,16 @@ def report():
 def templates(to_master):
     # TODO move this to cli()
     engine_config.initialise()
-    click.secho("Hello from datamaps 1.0!", fg="yellow")
+    click.secho(f"Hello from datamaps {__version__}", fg="yellow")
     if to_master:
         try:
             engine_cli.import_and_create_master(echo_funcs=output_funcs)
         except MalFormedCSVHeaderException as e:
             click.echo(
                 click.style("Incorrect headers in datamap. {}.".format(e.args[0]), bold=True, reverse=True, fg="cyan"))
-        except KeyError as e:
-            if "Expected Sheet Missing" in e.args:
-                click.echo("Expected Sheet Missing: sheet Introduction in test_template.xlsm is expected from"
-                           " datamap.csv. Not processing that file until fixed."
-                           "Imported data from input/dft1_temp.xlsm to output/master.xlsx."
-                           "Finished.")
+        except RemoveFileWithNoSheetRequiredByDatamap:
+            logging.info("Import complete.")
+
     else:
         click.secho("Not implemented yet. Try --to-master/-m flag")
 
