@@ -19,6 +19,7 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
 IN THE SOFTWARE. """
 import logging
 from functools import partial
+from zipfile import BadZipFile
 
 import click
 from click import version_option
@@ -108,6 +109,9 @@ def templates(to_master):
                 click.style("Incorrect headers in datamap. {}.".format(e.args[0]), bold=True, reverse=True, fg="cyan"))
         except RemoveFileWithNoSheetRequiredByDatamap:
             logging.info("Import complete.")
+        except RuntimeError as e:
+            logger.critical(e)
+            logger.critical("Not completing import process.")
 
     else:
         click.secho("Not implemented yet. Try --to-master/-m flag")
@@ -133,7 +137,7 @@ def master(master):
     blank = input_dir / blank_fn
     datamap = input_dir / datamap_fn
 
-#   click.secho(f"Exporting master {master} to templates based on {blank}...")
+#   click.secho(f"EXPORTING master {master} to templates based on {blank}...")
     be_logger.info(f"Exporting master {master} to templates based on {blank}...")
 
     try:
