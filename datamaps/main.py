@@ -18,8 +18,8 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
 IN THE SOFTWARE. """
 import logging
+import sys
 from functools import partial
-from zipfile import BadZipFile
 
 import click
 from click import version_option
@@ -101,7 +101,7 @@ def report():
 def templates(to_master):
     # TODO move this to cli()
     engine_config.initialise()
-    click.secho(f"Hello from datamaps {__version__}", fg="yellow")
+    click.secho(f"Welcome to datamaps {__version__} © Twenty Four Software", fg="yellow")
     if to_master:
         try:
             engine_cli.import_and_create_master(echo_funcs=output_funcs)
@@ -111,8 +111,7 @@ def templates(to_master):
         except RemoveFileWithNoSheetRequiredByDatamap:
             logging.info("Import complete.")
         except RuntimeError as e:
-            logger.critical(e)
-            logger.critical("Not completing import process.")
+            logger.critical("Not completing import process due to runtime error. Please check output for CRITICAL messages to diagnose.")
         except NoApplicableSheetsInTemplateFiles as e:
             logger.critical("Not completing import process.")
 
