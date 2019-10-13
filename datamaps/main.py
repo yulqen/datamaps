@@ -28,6 +28,7 @@ from datamaps import __version__
 from engine.adapters import cli as engine_cli
 from engine.config import Config as engine_config
 from engine.exceptions import (MalFormedCSVHeaderException,
+                               NoApplicableSheetsInTemplateFiles,
                                RemoveFileWithNoSheetRequiredByDatamap)
 
 logging.basicConfig(level=logging.INFO, format="%(asctime)s: %(levelname)s - %(message)s", datefmt='%d-%b-%y %H:%M:%S')
@@ -111,6 +112,8 @@ def templates(to_master):
             logging.info("Import complete.")
         except RuntimeError as e:
             logger.critical(e)
+            logger.critical("Not completing import process.")
+        except NoApplicableSheetsInTemplateFiles as e:
             logger.critical("Not completing import process.")
 
     else:
