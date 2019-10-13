@@ -59,7 +59,11 @@ pass_config = click.make_pass_decorator(Config, ensure=True)
 @pass_config
 def cli(config, verbose):
     """
-    datamaps is a tool for moving data to and from spreadsheets. See web site, etc.
+    datamaps is a tool for moving data to and from spreadsheets. Documentation available
+    at https://www.datamaps.twentyfoursoftware.com (comming soon).
+
+    Please note: datamaps is beta software! Development is ongoing and the program
+    is undergoing continuous change.
     """
     config.verbose = verbose
 
@@ -74,7 +78,8 @@ def _import():
 @cli.group("export")
 def export():
     """
-    Export something (master data to blank templates, etc).
+    Export data from one format to another. Current functionality allows for data
+    to be exported from a Master spreadsheet to one or many blank Templates.
     """
 
 
@@ -111,8 +116,13 @@ def templates(to_master):
 @export.command()
 # @click.argument("datamap")
 # @click.argument("blank")
-@click.argument("master")
+@click.argument("master", metavar="FILE_PATH")
 def master(master):
+    """Export data from a Master file
+
+    Export data from master file whose path is FILE_PATH to a series of
+    blank Template files.
+    """
     engine_config.initialise()
 
     input_dir = engine_config.PLATFORM_DOCS_DIR / "input"
@@ -123,11 +133,12 @@ def master(master):
     blank = input_dir / blank_fn
     datamap = input_dir / datamap_fn
 
-    click.secho(f"Exporting master {master} to templates based on {blank}...")
+#   click.secho(f"Exporting master {master} to templates based on {blank}...")
+    be_logger.info(f"Exporting master {master} to templates based on {blank}...")
 
     try:
         engine_cli.write_master_to_templates(blank, datamap, master)
-    except FileNotFoundError as e:
+    except (FileNotFoundError, RuntimeError) as e:
         click.secho(str(e), fg="red")
 
 
