@@ -147,7 +147,8 @@ def master(master):
     try:
         engine_cli.write_master_to_templates(blank, datamap, master)
     except (FileNotFoundError, RuntimeError) as e:
-        click.secho(str(e), fg="red")
+        logger.critical(str(e))
+        sys.exit(1)
     be_logger.info("Export complete.")
 
 
