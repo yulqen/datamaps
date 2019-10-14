@@ -140,12 +140,13 @@ def master(master):
     datamap = input_dir / datamap_fn
 
 #   click.secho(f"EXPORTING master {master} to templates based on {blank}...")
-    be_logger.info(f"Exporting master {master} to templates based on {blank}...")
+    be_logger.info(f"Exporting master {master} to templates based on {blank}.")
 
     try:
         engine_cli.write_master_to_templates(blank, datamap, master)
     except (FileNotFoundError, RuntimeError) as e:
         click.secho(str(e), fg="red")
+    be_logger.info("Export complete.")
 
 
 @report.command()
