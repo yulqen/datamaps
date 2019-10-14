@@ -18,7 +18,6 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
 IN THE SOFTWARE. """
 import logging
-import sys
 from functools import partial
 
 import click
@@ -110,9 +109,9 @@ def templates(to_master):
                 click.style("Incorrect headers in datamap. {}.".format(e.args[0]), bold=True, reverse=True, fg="cyan"))
         except RemoveFileWithNoSheetRequiredByDatamap:
             logging.info("Import complete.")
-        except RuntimeError as e:
+        except RuntimeError:
             logger.critical("Not completing import process due to runtime error. Please check output for CRITICAL messages to diagnose.")
-        except NoApplicableSheetsInTemplateFiles as e:
+        except NoApplicableSheetsInTemplateFiles:
             logger.critical("Not completing import process.")
 
     else:
