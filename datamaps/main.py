@@ -69,9 +69,7 @@ def cli(config, verbose):
     """
     click.secho(f"Welcome to datamaps {__version__} © Twenty Four Software", fg="yellow")
     config.verbose = verbose
-    if not engine_config.initialise():
-        logger.critical("Required directories were not available to complete action. Please run command again now initial config is done.")
-        sys.exit(1)
+    engine_config.initialise()
 
 
 @cli.group("import")
@@ -147,6 +145,7 @@ def master(master):
     try:
         engine_cli.write_master_to_templates(blank, datamap, master)
     except (FileNotFoundError, RuntimeError) as e:
+        breakpoint()
         logger.critical(str(e))
         sys.exit(1)
     be_logger.info("Export complete.")
