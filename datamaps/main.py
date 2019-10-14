@@ -18,6 +18,7 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
 IN THE SOFTWARE. """
 import logging
+import sys
 from functools import partial
 
 import click
@@ -66,8 +67,11 @@ def cli(config, verbose):
     Please note: datamaps is beta software! Development is ongoing and the program
     is undergoing continuous change.
     """
+    click.secho(f"Welcome to datamaps {__version__} © Twenty Four Software", fg="yellow")
     config.verbose = verbose
-    engine_config.initialise()
+    if not engine_config.initialise():
+        logger.critical("Required directories were not available to complete action. Please run command again now initial config is done.")
+        sys.exit(1)
 
 
 @cli.group("import")
@@ -99,7 +103,6 @@ def report():
     help="Create master.xlsx immediately",
 )
 def templates(to_master):
-    click.secho(f"Welcome to datamaps {__version__} © Twenty Four Software", fg="yellow")
     if to_master:
         try:
             engine_cli.import_and_create_master(echo_funcs=output_funcs)
@@ -112,6 +115,9 @@ def templates(to_master):
             logger.critical("Not completing import process due to runtime error. Please check output for CRITICAL messages to diagnose.")
         except NoApplicableSheetsInTemplateFiles:
             logger.critical("Not completing import process.")
+        except FileNotFoundError as e:
+            logger.critical(e)
+            sys.exit(1)
 
     else:
         click.secho("Not implemented yet. Try --to-master/-m flag")
@@ -150,6 +156,10 @@ def master(master):
 def data_validations(target_file):
     """Requires the path to the target spreadsheet file."""
     logger.info(f"Getting data validations from: {target_file}")
-    report = engine_cli.report_data_validations_in_file(target_file)
+    try:
+        report = engine_cli.report_data_validations_in_file(target_file)
+    except FileNotFoundError as e:
+        logger.critical(e)
+        sys.exit(1)
     for r in report:
         logger.info(r)
