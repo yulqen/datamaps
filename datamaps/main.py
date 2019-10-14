@@ -67,6 +67,7 @@ def cli(config, verbose):
     is undergoing continuous change.
     """
     config.verbose = verbose
+    engine_config.initialise()
 
 
 @cli.group("import")
@@ -98,8 +99,6 @@ def report():
     help="Create master.xlsx immediately",
 )
 def templates(to_master):
-    # TODO move this to cli()
-    engine_config.initialise()
     click.secho(f"Welcome to datamaps {__version__} © Twenty Four Software", fg="yellow")
     if to_master:
         try:
@@ -128,8 +127,6 @@ def master(master):
     Export data from master file whose path is FILE_PATH to a series of
     blank Template files.
     """
-    engine_config.initialise()
-
     input_dir = engine_config.PLATFORM_DOCS_DIR / "input"
 
     blank_fn = engine_config.config_parser["DEFAULT"]["blank file name"]
