@@ -149,8 +149,7 @@ def master(master):
 @click.argument("target_file")
 def data_validations(target_file):
     """Requires the path to the target spreadsheet file."""
-    click.secho(f"Getting data validations from: {target_file}", fg="green")
-    engine_config.initialise()
+    logger.info(f"Getting data validations from: {target_file}")
     report = engine_cli.report_data_validations_in_file(target_file)
     for r in report:
-        click.secho(r)
+        logger.info(r)
