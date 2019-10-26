@@ -52,7 +52,7 @@ setup(
     maintainer_email='matt@matthewlemon.com',
     url='https://github.com/hammerheadlemon/datamaps',
     packages=find_packages(),
-    python_requires='>=3.6',
+    python_requires='>=3.7',
     entry_points={'console_scripts': [
         'datamaps = datamaps.main:cli'
     ]},
