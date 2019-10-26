@@ -28,6 +28,7 @@ from datamaps import __version__
 from engine.adapters import cli as engine_cli
 from engine.config import Config as engine_config
 from engine.exceptions import (MalFormedCSVHeaderException,
+                               MissingSheetFieldError,
                                NoApplicableSheetsInTemplateFiles,
                                RemoveFileWithNoSheetRequiredByDatamap)
 
@@ -116,6 +117,9 @@ def templates(to_master):
         except FileNotFoundError as e:
             logger.critical(e)
             sys.exit(1)
+        except MissingSheetFieldError as e:
+            logger.critical(e)
+            sys.exit(1)
 
     else:
         click.secho("Not implemented yet. Try --to-master/-m flag")
@@ -146,6 +150,9 @@ def master(master):
         engine_cli.write_master_to_templates(blank, datamap, master)
     except (FileNotFoundError, RuntimeError) as e:
         logger.critical(str(e))
+        sys.exit(1)
+    except MissingSheetFieldError as e:
+        logger.critical(e)
         sys.exit(1)
     be_logger.info("Export complete.")
 
