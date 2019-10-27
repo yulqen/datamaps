@@ -30,7 +30,7 @@ from engine.config import Config as engine_config
 from engine.exceptions import (MalFormedCSVHeaderException,
                                MissingCellKeyError, MissingSheetFieldError,
                                NoApplicableSheetsInTemplateFiles,
-                               RemoveFileWithNoSheetRequiredByDatamap)
+                               RemoveFileWithNoSheetRequiredByDatamap, DatamapFileEncodingError)
 
 logging.basicConfig(level=logging.INFO, format="%(asctime)s: %(levelname)s - %(message)s", datefmt='%d-%b-%y %H:%M:%S')
 logger = logging.getLogger(__name__)
@@ -123,6 +123,9 @@ def templates(to_master):
         except MissingCellKeyError as e:
             logger.critical(e)
             sys.exit(1)
+        except DatamapFileEncodingError as e:
+            logger.critical(e)
+            sys.exit(1)
 
     else:
         click.secho("Not implemented yet. Try --to-master/-m flag")
@@ -158,6 +161,9 @@ def master(master):
         logger.critical(e)
         sys.exit(1)
     except MissingCellKeyError as e:
+        logger.critical(e)
+        sys.exit(1)
+    except DatamapFileEncodingError as e:
         logger.critical(e)
         sys.exit(1)
     be_logger.info("Export complete.")
