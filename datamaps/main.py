@@ -190,7 +190,6 @@ def check():
     Checks for a correctly-named blank template in the input directory and
     a datamap file in the input directory. Checks for correct headers in datamap.
     """
-    breakpoint()
     try:
         engine_cli.check_aux_files(engine_config)
     except MalFormedCSVHeaderException as e:
