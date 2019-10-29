@@ -27,10 +27,11 @@ from click import version_option
 from datamaps import __version__
 from engine.adapters import cli as engine_cli
 from engine.config import Config as engine_config
-from engine.exceptions import (MalFormedCSVHeaderException,
+from engine.exceptions import (DatamapFileEncodingError,
+                               MalFormedCSVHeaderException,
                                MissingCellKeyError, MissingSheetFieldError,
                                NoApplicableSheetsInTemplateFiles,
-                               RemoveFileWithNoSheetRequiredByDatamap, DatamapFileEncodingError)
+                               RemoveFileWithNoSheetRequiredByDatamap)
 
 logging.basicConfig(level=logging.INFO, format="%(asctime)s: %(levelname)s - %(message)s", datefmt='%d-%b-%y %H:%M:%S')
 logger = logging.getLogger(__name__)
@@ -181,3 +182,26 @@ def data_validations(target_file):
         sys.exit(1)
     for r in report:
         logger.info(r)
+
+
+@cli.command()
+def check():
+    """
+    Checks for a correctly-named blank template in the input directory and
+    a datamap file in the input directory. Checks for correct headers in datamap.
+    """
+    breakpoint()
+    try:
+        engine_cli.check_aux_files(engine_config)
+    except MalFormedCSVHeaderException as e:
+        logger.critical(e)
+        sys.exit(1)
+    except MissingSheetFieldError as e:
+        logger.critical(e)
+        sys.exit(1)
+    except MissingCellKeyError as e:
+        logger.critical(e)
+        sys.exit(1)
+    except DatamapFileEncodingError as e:
+        logger.critical(e)
+        sys.exit(1)
