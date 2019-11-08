@@ -1,35 +1,11 @@
 #!/usr/bin/env python
 
-import os
-
 from setuptools import find_packages, setup
 
 import datamaps
 
-
-def read(*names):
-    values = dict()
-    extensions = ['.txt', '.rst']
-    for name in names:
-        value = ''
-        for extension in extensions:
-            filename = name + extension
-            if os.path.isfile(filename):
-                value = open(name + extension).read()
-                break
-        values[name] = value
-    return values
-
-
-long_description = """
-%(README)s
-
-News
-====
-
-%(CHANGES)s
-
-""" % read('README', 'CHANGES')
+with open("README.md", "r") as fh:
+    long_description = fh.read()
 
 setup(
     name='datamaps',
