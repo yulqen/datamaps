@@ -29,7 +29,8 @@ from engine.adapters import cli as engine_cli
 from engine.config import Config as engine_config
 from engine.exceptions import (DatamapFileEncodingError,
                                MalFormedCSVHeaderException,
-                               MissingCellKeyError, MissingSheetFieldError,
+                               MissingCellKeyError, MissingLineError,
+                               MissingSheetFieldError,
                                NoApplicableSheetsInTemplateFiles,
                                RemoveFileWithNoSheetRequiredByDatamap)
 
@@ -167,6 +168,9 @@ def master(master):
     except DatamapFileEncodingError as e:
         logger.critical(e)
         sys.exit(1)
+    except MissingLineError as e:
+        logger.critical(e)
+        sys.exit(1)
     be_logger.info("Export complete.")
 
 
@@ -202,5 +206,8 @@ def check():
         logger.critical(e)
         sys.exit(1)
     except DatamapFileEncodingError as e:
+        logger.critical(e)
+        sys.exit(1)
+    except MissingLineError as e:
         logger.critical(e)
         sys.exit(1)
