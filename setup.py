@@ -60,6 +60,6 @@ setup(
     install_requires=[
         'click',
         'python-dateutil',
-        'bcompiler-engine @ https://github.com/hammerheadlemon/bcompiler-engine/archive/master.zip#egg=bcompiler-engine'
+        'bcompiler-engine'
     ],
     test_suite='datamaps.tests')
