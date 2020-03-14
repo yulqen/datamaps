@@ -36,6 +36,6 @@ setup(
     install_requires=[
         'click',
         'python-dateutil',
-        'bcompiler-engine>=1.0.2'
+        'bcompiler-engine>=1.0.3'
     ],
     test_suite='datamaps.tests')
