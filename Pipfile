@@ -13,10 +13,10 @@ flake8 = "*"
 mypy = "*"
 
 [packages]
-bcompiler-engine = {editable = true,path = "/home/lemon/code/python/bcompiler-engine"}
 python-dateutil = "*"
 click = "*"
 datamaps = {editable = true,path = "."}
+bcompiler-engine = {editable = true,path = "/home/lemon/code/python/bcompiler-engine"}
 
 [requires]
 python_version = "3.7"
