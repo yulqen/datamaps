@@ -9,7 +9,7 @@ from engine.config import Config
 
 @pytest.fixture
 def master() -> Path:
-    return Path.cwd() / "tests" / "resources" / "master.xlsx"
+    return Path.cwd() / "datamaps" / "tests" / "resources" / "master.xlsx"
 
 
 @pytest.fixture
