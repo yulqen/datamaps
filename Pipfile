@@ -19,4 +19,4 @@ datamaps = {editable = true,path = "."}
 bcompiler-engine = {editable = true,path = "/home/lemon/code/python/bcompiler-engine"}
 
 [requires]
-python_version = "3.7"
+python_version = "3.8"
