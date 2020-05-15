@@ -32,7 +32,7 @@ from engine.exceptions import (DatamapFileEncodingError,
                                MissingCellKeyError, MissingLineError,
                                MissingSheetFieldError,
                                NoApplicableSheetsInTemplateFiles,
-                               RemoveFileWithNoSheetRequiredByDatamap)
+                               RemoveFileWithNoSheetRequiredByDatamap, DatamapNotCSVException)
 
 logging.basicConfig(level=logging.INFO, format="%(asctime)s: %(levelname)s - %(message)s", datefmt='%d-%b-%y %H:%M:%S')
 logger = logging.getLogger(__name__)
@@ -103,10 +103,15 @@ def report():
     default=False,
     help="Create master.xlsx immediately",
 )
-def templates(to_master):
+@click.option(
+    "--datamap",
+    "-d",
+    help="Path to datamap file",
+)
+def templates(to_master, datamap):
     if to_master:
         try:
-            engine_cli.import_and_create_master(echo_funcs=output_funcs)
+            engine_cli.import_and_create_master(echo_funcs=output_funcs, datamap=datamap)
         except MalFormedCSVHeaderException as e:
             click.echo(
                 click.style("Incorrect headers in datamap. {}.".format(e.args[0]), bold=True, reverse=True, fg="cyan"))
@@ -126,6 +131,9 @@ def templates(to_master):
             logger.critical(e)
             sys.exit(1)
         except DatamapFileEncodingError as e:
+            logger.critical(e)
+            sys.exit(1)
+        except DatamapNotCSVException as e:
             logger.critical(e)
             sys.exit(1)
 
