@@ -66,12 +66,12 @@ pass_config = click.make_pass_decorator(Config, ensure=True)
 
 @version_option(__version__)
 @click.group()
-@click.option("--verbose", is_flag=True)
+@click.option("--verbose", is_flag=True, help="This currently has no effect.")
 @pass_config
 def cli(config, verbose):
     """
     datamaps is a tool for moving data to and from spreadsheets. Documentation available
-    at https://www.datamaps.twentyfoursoftware.com (comming soon).
+    at https://www.datamaps.twentyfoursoftware.com.
 
     Please note: datamaps is beta software! Development is ongoing and the program
     is undergoing continuous change.
@@ -109,12 +109,21 @@ def report():
     "-m",
     is_flag=True,
     default=False,
-    help="Create master.xlsx immediately",
+    help="Create master.xlsx based on populated templates in output directory. "
+         "Future versions will allow importing to other formats such as databases, "
+         "hence the reason for this being the only option currently.",
 )
 @click.option(
-    "--datamap", "-d", help="Path to datamap file",
+    "--datamap", "-d", help="Path to datamap file", metavar="CSV_FILE_PATH"
 )
 def templates(to_master, datamap):
+    """Import data to a master file from a collection of populated templates.
+
+    Import data from the template files stored in the input directory to create
+    a master.xlsx file in the output directory.
+
+    The default datamap file will be used unless you pass the -d flag with a path to a different file.
+    """
     if to_master:
         try:
             engine_cli.import_and_create_master(
@@ -160,15 +169,17 @@ def templates(to_master, datamap):
 @export.command()
 # @click.argument("datamap")
 # @click.argument("blank")
-@click.argument("master", metavar="FILE_PATH")
+@click.argument("master", metavar="MASTER_FILE_PATH")
 @click.option(
-    "--datamap", "-d", help="Path to datamap file",
+    "--datamap", "-d", help="Path to datamap (CSV) file.", metavar="CSV_FILE_PATH"
 )
 def master(master, datamap):
-    """Export data from a Master file
+    """Export data from a Master file.
 
-    Export data from master file whose path is FILE_PATH to a series of
-    blank Template files.
+    Export data from a master file (at MASTER_FILE_PATH). A new populated template
+    will be created for each project in the master.
+
+    The default datamap file will be used unless you pass the -d flag with a path to a different file.
     """
     input_dir = engine_config.PLATFORM_DOCS_DIR / "input"
 
