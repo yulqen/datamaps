@@ -1,3 +1,5 @@
+![Tests](https://github.com/hammerheadlemon/datamaps/workflows/Tests/badge.svg)
+
 This software is a CLI UI layer for
 [bcompiler-engine](https://github.com/hammerheadlemon/bcompiler-engine).  It
 allows for easy access to adapters available within `bcompiler-engine` and is
