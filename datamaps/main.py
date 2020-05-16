@@ -17,26 +17,32 @@ AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
 LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
 IN THE SOFTWARE. """
+import click
 import logging
 import sys
-from functools import partial
-
-import click
 from click import version_option
+from functools import partial
 
 from datamaps import __version__
 from engine.adapters import cli as engine_cli
 from engine.config import Config as engine_config
-from engine.exceptions import (DatamapFileEncodingError,
-                               MalFormedCSVHeaderException,
-                               MissingCellKeyError, MissingLineError,
-                               MissingSheetFieldError,
-                               NoApplicableSheetsInTemplateFiles,
-                               RemoveFileWithNoSheetRequiredByDatamap, DatamapNotCSVException)
+from engine.exceptions import (
+    DatamapFileEncodingError,
+    MalFormedCSVHeaderException,
+    MissingCellKeyError,
+    MissingLineError,
+    MissingSheetFieldError,
+    NoApplicableSheetsInTemplateFiles,
+    RemoveFileWithNoSheetRequiredByDatamap,
+    DatamapNotCSVException,
+)
 
-logging.basicConfig(level=logging.INFO, format="%(asctime)s: %(levelname)s - %(message)s", datefmt='%d-%b-%y %H:%M:%S')
+logging.basicConfig(
+    level=logging.INFO,
+    format="%(asctime)s: %(levelname)s - %(message)s",
+    datefmt="%d-%b-%y %H:%M:%S",
+)
 logger = logging.getLogger(__name__)
-
 
 
 be_logger = logging.getLogger("engine.use_cases.parsing")
@@ -70,7 +76,9 @@ def cli(config, verbose):
     Please note: datamaps is beta software! Development is ongoing and the program
     is undergoing continuous change.
     """
-    click.secho(f"Welcome to datamaps {__version__} © Twenty Four Software", fg="yellow")
+    click.secho(
+        f"Welcome to datamaps {__version__} © Twenty Four Software", fg="yellow"
+    )
     config.verbose = verbose
     engine_config.initialise()
 
@@ -104,21 +112,29 @@ def report():
     help="Create master.xlsx immediately",
 )
 @click.option(
-    "--datamap",
-    "-d",
-    help="Path to datamap file",
+    "--datamap", "-d", help="Path to datamap file",
 )
 def templates(to_master, datamap):
     if to_master:
         try:
-            engine_cli.import_and_create_master(echo_funcs=output_funcs, datamap=datamap)
+            engine_cli.import_and_create_master(
+                echo_funcs=output_funcs, datamap=datamap
+            )
         except MalFormedCSVHeaderException as e:
             click.echo(
-                click.style("Incorrect headers in datamap. {}.".format(e.args[0]), bold=True, reverse=True, fg="cyan"))
+                click.style(
+                    "Incorrect headers in datamap. {}.".format(e.args[0]),
+                    bold=True,
+                    reverse=True,
+                    fg="cyan",
+                )
+            )
         except RemoveFileWithNoSheetRequiredByDatamap:
             logging.info("Import complete.")
         except RuntimeError:
-            logger.critical("Not completing import process due to runtime error. Please check output for CRITICAL messages to diagnose.")
+            logger.critical(
+                "Not completing import process due to runtime error. Please check output for CRITICAL messages to diagnose."
+            )
         except NoApplicableSheetsInTemplateFiles:
             logger.critical("Not completing import process.")
         except FileNotFoundError as e:
@@ -146,9 +162,7 @@ def templates(to_master, datamap):
 # @click.argument("blank")
 @click.argument("master", metavar="FILE_PATH")
 @click.option(
-    "--datamap",
-    "-d",
-    help="Path to datamap file",
+    "--datamap", "-d", help="Path to datamap file",
 )
 def master(master, datamap):
     """Export data from a Master file
@@ -167,7 +181,7 @@ def master(master, datamap):
     blank = input_dir / blank_fn
     datamap = input_dir / datamap_fn
 
-#   click.secho(f"EXPORTING master {master} to templates based on {blank}...")
+    #   click.secho(f"EXPORTING master {master} to templates based on {blank}...")
     be_logger.info(f"Exporting master {master} to templates based on {blank}.")
 
     try:
