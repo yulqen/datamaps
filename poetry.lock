@@ -55,21 +55,15 @@ tests = ["coverage", "hypothesis", "pympler", "pytest (>=4.3.0)", "six", "zope.i
 
 [[package]]
 category = "main"
-description = ""
-develop = true
+description = "Library for parsing spreadsheets using datamaps"
 name = "bcompiler-engine"
 optional = false
-python-versions = "^3.6.0"
+python-versions = "*"
 version = "1.0.4"
 
 [package.dependencies]
-appdirs = "^1.4.3"
-openpyxl = "^3.0.3"
-
-[package.source]
-reference = ""
-type = "directory"
-url = "C:/Users/lemon/code/python/bcompiler-engine"
+appdirs = "*"
+openpyxl = "*"
 
 [[package]]
 category = "main"
@@ -375,7 +369,7 @@ docs = ["sphinx", "jaraco.packaging (>=3.2)", "rst.linker (>=1.9)"]
 testing = ["jaraco.itertools", "func-timeout"]
 
 [metadata]
-content-hash = "95401f64836d4aa6e595f69702311eaa5df15ab026a1695c09b2bd0e49fa7cf7"
+content-hash = "5b8fba187f8550360c911047f7a81065b32b1992435b2f2c7de706189fbca23a"
 python-versions = "^3.7.0"
 
 [metadata.files]
@@ -399,7 +393,10 @@ attrs = [
     {file = "attrs-19.3.0-py2.py3-none-any.whl", hash = "sha256:08a96c641c3a74e44eb59afb61a24f2cb9f4d7188748e76ba4bb5edfa3cb7d1c"},
     {file = "attrs-19.3.0.tar.gz", hash = "sha256:f7b7ce16570fe9965acd6d30101a28f62fb4a7f9e926b3bbc9b61f8b04247e72"},
 ]
-bcompiler-engine = []
+bcompiler-engine = [
+    {file = "bcompiler-engine-1.0.4.tar.gz", hash = "sha256:33e219cc72dde9d5f4e8c3efea747f4827268c029053f77e6dc72bc64c114117"},
+    {file = "bcompiler_engine-1.0.4-py3-none-any.whl", hash = "sha256:643b8cae0de6a1a985e8cda078531b1b32238df2c2df9b1a66008ce39b6dfbe7"},
+]
 click = [
     {file = "click-7.1.2-py2.py3-none-any.whl", hash = "sha256:dacca89f4bfadd5de3d7489b7c8a566eee0d3676333fbb50030263894c38c0dc"},
     {file = "click-7.1.2.tar.gz", hash = "sha256:d2b5255c7c6349bc1bd1e59e08cd12acbbd63ce649f2588755783aa94dfb6b1a"},
