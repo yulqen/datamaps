@@ -145,7 +145,12 @@ def templates(to_master, datamap):
 # @click.argument("datamap")
 # @click.argument("blank")
 @click.argument("master", metavar="FILE_PATH")
-def master(master):
+@click.option(
+    "--datamap",
+    "-d",
+    help="Path to datamap file",
+)
+def master(master, datamap):
     """Export data from a Master file
 
     Export data from master file whose path is FILE_PATH to a series of
@@ -154,7 +159,10 @@ def master(master):
     input_dir = engine_config.PLATFORM_DOCS_DIR / "input"
 
     blank_fn = engine_config.config_parser["DEFAULT"]["blank file name"]
-    datamap_fn = engine_config.config_parser["DEFAULT"]["datamap file name"]
+    if datamap:
+        datamap_fn = datamap
+    else:
+        datamap_fn = engine_config.config_parser["DEFAULT"]["datamap file name"]
 
     blank = input_dir / blank_fn
     datamap = input_dir / datamap_fn
@@ -177,6 +185,9 @@ def master(master):
         logger.critical(e)
         sys.exit(1)
     except MissingLineError as e:
+        logger.critical(e)
+        sys.exit(1)
+    except DatamapNotCSVException as e:
         logger.critical(e)
         sys.exit(1)
     be_logger.info("Export complete.")

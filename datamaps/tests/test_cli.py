@@ -6,7 +6,7 @@ from pathlib import Path
 import pytest
 from click.testing import CliRunner
 
-from datamaps.main import _import
+from datamaps.main import _import, export
 
 
 def _copy_resources_to_input(config, directory):
@@ -19,7 +19,7 @@ def _copy_resources_to_input(config, directory):
             )
 
 
-def test_can_select_datamap_when_importing(mock_config, resource_dir, caplog):
+def test_import_with_alternative_datamap(mock_config, resource_dir, caplog):
     """
     This should fail with exit code one as we are not providing a valid datamap file.
     :param mock_config:
@@ -33,10 +33,11 @@ def test_can_select_datamap_when_importing(mock_config, resource_dir, caplog):
     _alt_datamap_file = os.path.join(mock_config.PLATFORM_DOCS_DIR, "input", "datamap_alternate.csv")
     result = runner.invoke(_import, ["templates", "-m", "-d", _alt_datamap_file])
     assert result.exit_code == 0
-    assert "Reading datamap \\tmp\\Documents\\datamaps\\input\\datamap_alternate.csv" in [x[2] for x in caplog.record_tuples]
+    assert "Reading datamap \\tmp\\Documents\\datamaps\\input\\datamap_alternate.csv" in [x[2] for x in
+                                                                                          caplog.record_tuples]
 
 
-def test_wrong_datamap_given(mock_config, resource_dir):
+def test_import_with_wrong_datamap(mock_config, resource_dir, caplog):
     """
     This should fail with exit code one as we are not providing a valid datamap file.
     :param mock_config:
@@ -46,8 +47,30 @@ def test_wrong_datamap_given(mock_config, resource_dir):
     runner = CliRunner()
     mock_config.initialise()
     _copy_resources_to_input(mock_config, resource_dir)
-    result = runner.invoke(_import, ["templates", "-m", "-d", "C:/tmp/non-existant-file.txt"])
+    result = runner.invoke(_import, ["templates", "-m", "-d", "C:/tmp/non-existent-file.txt"])
     assert result.exit_code == 1
+    assert "Given datamap file is not in CSV format." in [x[2] for x in caplog.record_tuples]
+
+
+def test_export_with_alternative_datamap(mock_config, resource_dir, caplog):
+    runner = CliRunner()
+    mock_config.initialise()
+    _copy_resources_to_input(mock_config, resource_dir)
+    _master_file = os.path.join(mock_config.PLATFORM_DOCS_DIR, "input", "master.xlsx")
+    result = runner.invoke(export, ["master", _master_file, "-d", "C:/tmp/Desktop/test.txt"])
+    assert result.exit_code == 1
+    assert "Given datamap file is not in CSV format." in [x[2] for x in caplog.record_tuples]
+
+
+def test_export_with_alternative_datamap_not_csv(mock_config, resource_dir, caplog):
+    runner = CliRunner()
+    mock_config.initialise()
+    _copy_resources_to_input(mock_config, resource_dir)
+    _master_file = os.path.join(mock_config.PLATFORM_DOCS_DIR, "input", "master.xlsx")
+    _alt_datamap_file = os.path.join(mock_config.PLATFORM_DOCS_DIR, "input", "datamap_alternate.csv")
+    _ = runner.invoke(export, ["master", _master_file, "-d", _alt_datamap_file])
+    assert "Reading datamap \\tmp\\Documents\\datamaps\\input\\datamap_alternate.csv" in [x[2] for x in
+                                                                                          caplog.record_tuples]
 
 
 @pytest.mark.skip("Not currently passing - need to investigate")
