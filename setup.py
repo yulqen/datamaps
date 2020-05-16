@@ -36,6 +36,7 @@ setup(
     install_requires=[
         'click',
         'python-dateutil',
-        'bcompiler-engine>=1.0.3'
+        'bcompiler-engine>=1.0.4'
+        # "bcompiler-engine @ git+https://github.com/hammerheadlemon/bcompiler-engine@datamaps-cli-opt"
     ],
     test_suite='datamaps.tests')

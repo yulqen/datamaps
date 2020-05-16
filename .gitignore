@@ -9,3 +9,4 @@ datamaps.spec
 /.ropeproject/
 **/__pycache__/*
 *.egg-info/*
+.nox/
