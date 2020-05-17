@@ -1,4 +1,4 @@
-name: Tests
+name: Tests and Build exe
 on: push
 env:
   GITHUB_ACTIONS_RUNNER: runner
@@ -14,3 +14,20 @@ jobs:
       - run: pip install nox==2019.11.9
       - run: pip install poetry==1.0.5
       - run: nox
+
+  build:
+    runs-on: windows-latest
+
+    steps:
+      - uses: actions/checkout@v2
+      - name: Set up Python 3.7
+        uses: actions/setup-python@v1
+        with:
+          python-version: 3.7
+          architecture: x64
+      - name: Install dependencies
+        run: |
+          pip install poetry==1.0.5
+          poetry install
+      - name: Build with pyinstaller
+        run: pyinstaller cli.py --name "dm" --onefile
