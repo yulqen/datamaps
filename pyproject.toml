@@ -24,6 +24,8 @@ coverage = "^5.1"
 nox = "^2019.11.9"
 pyinstaller = "^3.6"
 wheel = "^0.34.2"
+pefile = "^2019.4.18"
+pywin32-ctypes = "^0.2.0"
 
 [tools.black]
 max-length-length=88
