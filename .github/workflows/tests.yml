@@ -1,9 +1,9 @@
 name: Tests and Build exe
 on: push
-env:
-  GITHUB_ACTIONS_RUNNER: runner
 jobs:
   tests:
+    env:
+      GITHUB_ACTIONS_RUNNER: runner
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
