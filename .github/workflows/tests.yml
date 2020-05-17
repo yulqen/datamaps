@@ -30,7 +30,7 @@ jobs:
           pip install poetry==1.0.5
           poetry install
       - name: Build with pyinstaller
-        run: python -m pyinstaller cli.py --name "dm" --onefile
+        run: python -m PyInstaller.__main__ cli.py --name "dm" --onefile
       - uses: actions/upload-artifact@master
         with:
           name: Windows
