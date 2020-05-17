@@ -59,7 +59,7 @@ description = "Library for parsing spreadsheets using datamaps"
 name = "bcompiler-engine"
 optional = false
 python-versions = "*"
-version = "1.0.4"
+version = "1.0.5"
 
 [package.dependencies]
 appdirs = "*"
@@ -369,7 +369,7 @@ docs = ["sphinx", "jaraco.packaging (>=3.2)", "rst.linker (>=1.9)"]
 testing = ["jaraco.itertools", "func-timeout"]
 
 [metadata]
-content-hash = "5b8fba187f8550360c911047f7a81065b32b1992435b2f2c7de706189fbca23a"
+content-hash = "fa1ed60de23038ecb52e3c794f66c5284dd49639c9793abac021f58f437af30a"
 python-versions = "^3.7.0"
 
 [metadata.files]
@@ -394,8 +394,8 @@ attrs = [
     {file = "attrs-19.3.0.tar.gz", hash = "sha256:f7b7ce16570fe9965acd6d30101a28f62fb4a7f9e926b3bbc9b61f8b04247e72"},
 ]
 bcompiler-engine = [
-    {file = "bcompiler-engine-1.0.4.tar.gz", hash = "sha256:33e219cc72dde9d5f4e8c3efea747f4827268c029053f77e6dc72bc64c114117"},
-    {file = "bcompiler_engine-1.0.4-py3-none-any.whl", hash = "sha256:643b8cae0de6a1a985e8cda078531b1b32238df2c2df9b1a66008ce39b6dfbe7"},
+    {file = "bcompiler-engine-1.0.5.tar.gz", hash = "sha256:b8922e6eb3efe64e8ba9dce80d853279c57a5b1b5e8b6c2eb76106d5f29fa24b"},
+    {file = "bcompiler_engine-1.0.5-py3-none-any.whl", hash = "sha256:df5ea497f872d481d10db2c812327d958d8526640da6b097c1eeac6c42137983"},
 ]
 click = [
     {file = "click-7.1.2-py2.py3-none-any.whl", hash = "sha256:dacca89f4bfadd5de3d7489b7c8a566eee0d3676333fbb50030263894c38c0dc"},
