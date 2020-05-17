@@ -5,6 +5,7 @@ from pathlib import Path
 
 import pytest
 from click.testing import CliRunner
+from sys import platform
 
 from datamaps.main import _import, export
 
@@ -30,12 +31,15 @@ def test_import_with_alternative_datamap(mock_config, resource_dir, caplog):
     mock_config.initialise()
     caplog.set_level(logging.INFO)
     _copy_resources_to_input(mock_config, resource_dir)
-    _alt_datamap_file = os.path.join(mock_config.PLATFORM_DOCS_DIR, "input", "datamap_alternate.csv")
+    _alt_datamap_file = mock_config.PLATFORM_DOCS_DIR / "input" / "datamap_alternate.csv"
     result = runner.invoke(_import, ["templates", "-m", "-d", _alt_datamap_file])
     assert result.exit_code == 0
-    assert "Reading datamap /tmp/Documents/datamaps/input/datamap_alternate.csv" in [x[2] for x in
-                                                                                     caplog.record_tuples]
-
+    if platform == "win32":
+        assert "Reading datamap \\tmp\\Documents\\datamaps\\input\\datamap_alternate.csv" in [x[2] for x in
+                                                                                              caplog.record_tuples]
+    else:
+        assert "Reading datamap /tmp/Documents/datamaps/input/datamap_alternate.csv" in [x[2] for x in
+                                                                                         caplog.record_tuples]
 
 def test_import_with_wrong_datamap(mock_config, resource_dir, caplog):
     """
@@ -69,8 +73,12 @@ def test_export_with_alternative_datamap_not_csv(mock_config, resource_dir, capl
     _master_file = os.path.join(mock_config.PLATFORM_DOCS_DIR, "input", "master.xlsx")
     _alt_datamap_file = os.path.join(mock_config.PLATFORM_DOCS_DIR, "input", "datamap_alternate.csv")
     _ = runner.invoke(export, ["master", _master_file, "-d", _alt_datamap_file])
-    assert "Reading datamap /tmp/Documents/datamaps/input/datamap_alternate.csv" in [x[2] for x in
-                                                                                     caplog.record_tuples]
+    if platform == "win32":
+        assert "Reading datamap \\tmp\\Documents\\datamaps\\input\\datamap_alternate.csv" in [x[2] for x in
+                                                                                              caplog.record_tuples]
+    else:
+        assert "Reading datamap /tmp/Documents/datamaps/input/datamap_alternate.csv" in [x[2] for x in
+                                                                                         caplog.record_tuples]
 
 
 @pytest.mark.skip("Not currently passing - need to investigate")
