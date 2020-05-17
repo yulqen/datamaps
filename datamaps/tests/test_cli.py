@@ -33,8 +33,8 @@ def test_import_with_alternative_datamap(mock_config, resource_dir, caplog):
     _alt_datamap_file = os.path.join(mock_config.PLATFORM_DOCS_DIR, "input", "datamap_alternate.csv")
     result = runner.invoke(_import, ["templates", "-m", "-d", _alt_datamap_file])
     assert result.exit_code == 0
-    assert "Reading datamap \\tmp\\Documents\\datamaps\\input\\datamap_alternate.csv" in [x[2] for x in
-                                                                                          caplog.record_tuples]
+    assert "Reading datamap /tmp/Documents/datamaps/input/datamap_alternate.csv" in [x[2] for x in
+                                                                                     caplog.record_tuples]
 
 
 def test_import_with_wrong_datamap(mock_config, resource_dir, caplog):
@@ -69,8 +69,8 @@ def test_export_with_alternative_datamap_not_csv(mock_config, resource_dir, capl
     _master_file = os.path.join(mock_config.PLATFORM_DOCS_DIR, "input", "master.xlsx")
     _alt_datamap_file = os.path.join(mock_config.PLATFORM_DOCS_DIR, "input", "datamap_alternate.csv")
     _ = runner.invoke(export, ["master", _master_file, "-d", _alt_datamap_file])
-    assert "Reading datamap \\tmp\\Documents\\datamaps\\input\\datamap_alternate.csv" in [x[2] for x in
-                                                                                          caplog.record_tuples]
+    assert "Reading datamap /tmp/Documents/datamaps/input/datamap_alternate.csv" in [x[2] for x in
+                                                                                     caplog.record_tuples]
 
 
 @pytest.mark.skip("Not currently passing - need to investigate")
