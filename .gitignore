@@ -9,4 +9,8 @@ datamaps.spec
 /.ropeproject/
 **/__pycache__/*
 *.egg-info/*
-.nox/
+.nox/.venv/*
+.venv/*
+.coverage/*
+.coverage
+pip-wheel-metadata/*
