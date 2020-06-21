@@ -46,5 +46,5 @@ jobs:
 
       - uses: actions/upload-artifact@master
         with:
-          name: Windows
+          name: datamaps
           path: dist/dm.exe
