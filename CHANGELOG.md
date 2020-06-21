@@ -1,3 +1,7 @@
+## v1.0.6
+
+* Tracking changes in `bcompiler-engine v.1.0.6`
+
 ## v1.0.0b13
 
 * New **check** command
