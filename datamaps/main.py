@@ -77,7 +77,7 @@ def cli(config, verbose):
     is undergoing continuous change.
     """
     click.secho(
-        f"Welcome to datamaps {__version__} © Twenty Four Software", fg="yellow"
+        f"Welcome to datamaps {__version__} © 2021 Twenty Four Software", fg="yellow"
     )
     config.verbose = verbose
     engine_config.initialise()
@@ -119,10 +119,25 @@ def report():
 def templates(to_master, datamap):
     """Import data to a master file from a collection of populated templates.
 
+    BASICS
+
     Import data from the template files stored in the input directory to create
     a master.xlsx file in the output directory.
 
     The default datamap file will be used unless you pass the -d flag with a path to a different file.
+
+    TEMPLATE ROW LIMIT
+
+    By default there is a row limit of 500 when importing from a template, which means only cells in 
+    rows 1-500 will be imported, no matter what your datamap says. This prevents datamaps running out of
+    memory when faced with a spreadsheet containing errenous/invisible rows, which can occur without the
+    user being aware, particularly on templates that have been subjected to length edits, years of copy
+    and pasting, styling changes and other similar chronic abuse.
+
+    This value can be changed in the configuration file (change the value for
+    TEMPLATE_ROW_LIMIT). There may be an imperceptible performance improvement gained by reducing this
+    value to as low as possible, but its primary purpose is to prevent fatal memory leaks when
+    processing a problematic file.
     """
     if to_master:
         try:
