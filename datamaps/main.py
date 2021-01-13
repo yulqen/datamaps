@@ -103,6 +103,29 @@ def report():
     """Create a report"""
 
 
+@cli.group("config")
+def _config():
+    """Manage datamaps configuration."""
+
+
+@_config.command(
+    help="Removes the configuration file (config.ini). It will be restored "
+    "automatically with default settings when required. You will lose any custom "
+    "configuration, but this is a good troubleshooting step."
+    )
+def restart():
+    """Removes the configuration file (config.ini)."""
+    engine_cli.delete_config(engine_config)
+
+
+@_config.command()
+def show_file():
+    """
+    Shows location of the config.ini file.
+    """
+    engine_cli.show_config_file(engine_config)
+
+
 @_import.command()
 @click.option(
     "--to-master",
@@ -110,12 +133,10 @@ def report():
     is_flag=True,
     default=False,
     help="Create master.xlsx based on populated templates in output directory. "
-         "Future versions will allow importing to other formats such as databases, "
-         "hence the reason for this being the only option currently.",
+    "Future versions will allow importing to other formats such as databases, "
+    "hence the reason for this being the only option currently.",
 )
-@click.option(
-    "--datamap", "-d", help="Path to datamap file", metavar="CSV_FILE_PATH"
-)
+@click.option("--datamap", "-d", help="Path to datamap file", metavar="CSV_FILE_PATH")
 def templates(to_master, datamap):
     """Import data to a master file from a collection of populated templates.
 
@@ -128,7 +149,7 @@ def templates(to_master, datamap):
 
     TEMPLATE ROW LIMIT
 
-    By default there is a row limit of 500 when importing from a template, which means only cells in 
+    By default there is a row limit of 500 when importing from a template, which means only cells in
     rows 1-500 will be imported, no matter what your datamap says. This prevents datamaps running out of
     memory when faced with a spreadsheet containing errenous/invisible rows, which can occur without the
     user being aware, particularly on templates that have been subjected to length edits, years of copy
