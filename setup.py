@@ -16,7 +16,6 @@ setup(
         "Development Status :: 3 - Alpha",
         "Environment :: Console",
         "Intended Audience :: Other Audience",
-        "Programming Language :: Python :: 3.6",
         "Programming Language :: Python :: 3.7",
         "Programming Language :: Python :: 3.8",
         "Topic :: Text Processing",
@@ -36,7 +35,7 @@ setup(
     install_requires=[
         'click',
         'python-dateutil',
-        'bcompiler-engine>=1.0.9'
+        'bcompiler-engine>=1.1.0'
         # "bcompiler-engine @ git+https://github.com/hammerheadlemon/bcompiler-engine@datamaps-cli-opt"
     ],
     test_suite='datamaps.tests')
