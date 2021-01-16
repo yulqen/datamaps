@@ -165,6 +165,9 @@ def templates(to_master, datamap, rowlimit):
     imperceptible performance improvement gained by reducing this value to as low as possible, but
     its primary purpose is to prevent fatal memory leaks when processing a problematic file.
     """
+    if rowlimit == 0:
+        logging.critical("Row limit cannot be 0. Quitting.")
+        sys.exit(1)
     if to_master:
         try:
             engine_cli.import_and_create_master(
