@@ -112,7 +112,7 @@ def _config():
     help="Removes the configuration file (config.ini). It will be restored "
     "automatically with default settings when required. You will lose any custom "
     "configuration, but this is a good troubleshooting step."
-    )
+)
 def restart():
     """Removes the configuration file (config.ini)."""
     engine_cli.delete_config(engine_config)
@@ -132,12 +132,18 @@ def show_file():
     "-m",
     is_flag=True,
     default=False,
-    help="Create master.xlsx based on populated templates in output directory. "
+    help="Create master.xlsx based on populated templates in input directory. "
     "Future versions will allow importing to other formats such as databases, "
     "hence the reason for this being the only option currently.",
 )
 @click.option("--datamap", "-d", help="Path to datamap file", metavar="CSV_FILE_PATH")
-def templates(to_master, datamap):
+@click.option(
+    "--rowlimit",
+    type=int,
+    help="Set row limit to prevent spurious Excel files with hidden rows being processed."
+    "Default is 500.",
+)
+def templates(to_master, datamap, rowlimit):
     """Import data to a master file from a collection of populated templates.
 
     BASICS
@@ -155,15 +161,14 @@ def templates(to_master, datamap):
     user being aware, particularly on templates that have been subjected to length edits, years of copy
     and pasting, styling changes and other similar chronic abuse.
 
-    This value can be changed in the configuration file (change the value for
-    TEMPLATE_ROW_LIMIT). There may be an imperceptible performance improvement gained by reducing this
-    value to as low as possible, but its primary purpose is to prevent fatal memory leaks when
-    processing a problematic file.
+    This value can be changed by passing the value using the --rowlimit option  There may be an
+    imperceptible performance improvement gained by reducing this value to as low as possible, but
+    its primary purpose is to prevent fatal memory leaks when processing a problematic file.
     """
     if to_master:
         try:
             engine_cli.import_and_create_master(
-                echo_funcs=output_funcs, datamap=datamap
+                echo_funcs=output_funcs, datamap=datamap, rowlimit=rowlimit
             )
         except MalFormedCSVHeaderException as e:
             click.echo(
