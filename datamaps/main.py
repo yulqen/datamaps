@@ -143,8 +143,17 @@ def show_file():
     help="Set row limit to prevent spurious Excel files with hidden rows being processed."
     "Default is 500.",
 )
-@click.option("--inputdir", help="Path to input directory", metavar="INPUT_DIRECTORY_PATH")
-def templates(to_master, datamap, rowlimit, inputdir):
+@click.option(
+    "--inputdir", help="Path to input directory", metavar="INPUT_DIRECTORY_PATH"
+)
+@click.option(
+    "--validationonly",
+    "-v",
+    is_flag=True,
+    default=False,
+    help="Create validation report only - do not output data anywhere.",
+)
+def templates(to_master, datamap, rowlimit, inputdir, validationonly):
     """Import data to a master file from a collection of populated templates.
 
     BASICS
@@ -169,10 +178,17 @@ def templates(to_master, datamap, rowlimit, inputdir):
     if rowlimit == 0:
         logging.critical("Row limit cannot be 0. Quitting.")
         sys.exit(1)
-    if to_master:
+    if to_master and validationonly:
+        logging.critical("Cannot select both -m/--to-master and -v/--validationonly flags.")
+        sys.exit(1)
+    if validationonly:
         try:
             engine_cli.import_and_create_master(
-                echo_funcs=output_funcs, datamap=datamap, rowlimit=rowlimit, inputdir=inputdir
+                echo_funcs=output_funcs,
+                datamap=datamap,
+                rowlimit=rowlimit,
+                inputdir=inputdir,
+                validationonly=validationonly,
             )
         except MalFormedCSVHeaderException as e:
             click.echo(
@@ -207,8 +223,46 @@ def templates(to_master, datamap, rowlimit, inputdir):
             logger.critical(e)
             sys.exit(1)
 
-    else:
-        click.secho("Not implemented yet. Try --to-master/-m flag")
+    if to_master:
+        try:
+            engine_cli.import_and_create_master(
+                echo_funcs=output_funcs,
+                datamap=datamap,
+                rowlimit=rowlimit,
+                inputdir=inputdir,
+            )
+        except MalFormedCSVHeaderException as e:
+            click.echo(
+                click.style(
+                    "Incorrect headers in datamap. {}.".format(e.args[0]),
+                    bold=True,
+                    reverse=True,
+                    fg="cyan",
+                )
+            )
+        except RemoveFileWithNoSheetRequiredByDatamap:
+            logging.info("Import complete.")
+        except RuntimeError:
+            logger.critical(
+                "Not completing import process due to runtime error. Please check output for CRITICAL messages to diagnose."
+            )
+        except NoApplicableSheetsInTemplateFiles:
+            logger.critical("Not completing import process.")
+        except FileNotFoundError as e:
+            logger.critical(e)
+            sys.exit(1)
+        except MissingSheetFieldError as e:
+            logger.critical(e)
+            sys.exit(1)
+        except MissingCellKeyError as e:
+            logger.critical(e)
+            sys.exit(1)
+        except DatamapFileEncodingError as e:
+            logger.critical(e)
+            sys.exit(1)
+        except DatamapNotCSVException as e:
+            logger.critical(e)
+            sys.exit(1)
 
 
 @export.command()
