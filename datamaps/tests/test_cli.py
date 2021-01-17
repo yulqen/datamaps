@@ -20,6 +20,30 @@ def _copy_resources_to_input(config, directory):
             )
 
 
+def test_import_from_user_defined_source_dir(
+    mock_config, resource_dir, caplog, temp_input_dir
+):
+    runner = CliRunner()
+    mock_config.initialise()
+    caplog.set_level(logging.INFO)
+    for fl in os.listdir(resource_dir):
+        shutil.copy(
+            Path.cwd() / "datamaps" / "tests" / "resources" / fl, temp_input_dir
+        )
+    result = runner.invoke(_import, ["templates", "-m", "--inputdir", temp_input_dir])
+    assert result.exit_code == 0
+    output = [x[2] for x in caplog.record_tuples]
+    found = False
+    for o in output:
+        if f"Reading datamap {temp_input_dir}/" in o:
+            found = True
+            break
+    if found:
+        assert True
+    else:
+        assert False, "Cannot find correct string"
+
+
 @pytest.mark.parametrize(
     "rowlimit,expected,exit_code",
     [

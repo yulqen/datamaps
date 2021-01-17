@@ -1,5 +1,7 @@
 import os
 import shutil
+import tempfile
+
 from pathlib import Path
 
 import pytest
@@ -10,6 +12,12 @@ from engine.config import Config
 @pytest.fixture
 def master() -> Path:
     return Path.cwd() / "datamaps" / "tests" / "resources" / "master.xlsx"
+
+
+@pytest.fixture
+def temp_input_dir() ->  Path:
+    pth = tempfile.mkdtemp()
+    yield pth
 
 
 @pytest.fixture

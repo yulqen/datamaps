@@ -143,7 +143,8 @@ def show_file():
     help="Set row limit to prevent spurious Excel files with hidden rows being processed."
     "Default is 500.",
 )
-def templates(to_master, datamap, rowlimit):
+@click.option("--inputdir", help="Path to input directory", metavar="INPUT_DIRECTORY_PATH")
+def templates(to_master, datamap, rowlimit, inputdir):
     """Import data to a master file from a collection of populated templates.
 
     BASICS
@@ -171,7 +172,7 @@ def templates(to_master, datamap, rowlimit):
     if to_master:
         try:
             engine_cli.import_and_create_master(
-                echo_funcs=output_funcs, datamap=datamap, rowlimit=rowlimit
+                echo_funcs=output_funcs, datamap=datamap, rowlimit=rowlimit, inputdir=inputdir
             )
         except MalFormedCSVHeaderException as e:
             click.echo(
