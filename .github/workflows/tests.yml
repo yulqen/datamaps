@@ -35,6 +35,7 @@ jobs:
       - name: Install dependencies
         run: |
           pip install poetry==1.0.5
+          pip install setuptools --upgrade
           poetry update
 
       - name: Pip list
