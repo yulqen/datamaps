@@ -27,7 +27,7 @@ def test_can_run_validation_only_template_import(mock_config, resource_dir, capl
     _copy_resources_to_input(mock_config, resource_dir)
     result = runner.invoke(_import, ["templates", "-v"])
     assert result.exit_code == 0
-    assert "No output file required." in [x[2] for x in caplog.record_tuples]
+    assert "No output file produced as not requested." in [x[2] for x in caplog.record_tuples]
 
 
 def test_import_from_user_defined_source_dir(
