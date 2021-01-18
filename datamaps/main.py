@@ -75,6 +75,11 @@ def cli(config, verbose):
 
     Please note: datamaps is beta software! Development is ongoing and the program
     is undergoing continuous change.
+
+    Use --help flag after all commands to get help. For example:
+
+        datamaps import templates --help (for
+        etc...
     """
     click.secho(
         f"Welcome to datamaps {__version__} © 2021 Twenty Four Software", fg="yellow"
@@ -86,7 +91,8 @@ def cli(config, verbose):
 @cli.group("import")
 def _import():
     """
-    Import something (a batch of populated templates, a datamap, etc).
+    Import something (a batch of populated templates, a datamap, etc). This command is also used
+    to carry out validation tasks on populated templates.
     """
 
 
@@ -100,7 +106,8 @@ def export():
 
 @cli.group("report")
 def report():
-    """Create a report"""
+    """Create a report of some description. Currently only Excel cell validation
+    is implemented."""
 
 
 @cli.group("config")
@@ -109,7 +116,7 @@ def _config():
 
 
 @_config.command(
-    help="Removes the configuration file (config.ini). It will be restored "
+    short_help="Removes the configuration file (config.ini). It will be restored "
     "automatically with default settings when required. You will lose any custom "
     "configuration, but this is a good troubleshooting step."
 )
@@ -118,10 +125,12 @@ def restart():
     engine_cli.delete_config(engine_config)
 
 
-@_config.command()
+@_config.command(
+        short_help="Shows location of the config.ini file. This differs depending "
+                    "upon your operating system.")
 def show_file():
     """
-    Shows location of the config.ini file.
+    Shows location of the config file.
     """
     engine_cli.show_config_file(engine_config)
 
@@ -132,9 +141,7 @@ def show_file():
     "-m",
     is_flag=True,
     default=False,
-    help="Create master.xlsx based on populated templates in input directory. "
-    "Future versions will allow importing to other formats such as databases, "
-    "hence the reason for this being the only option currently.",
+    help="Create master.xlsx based on populated templates and datamap.csv in input directory.",
 )
 @click.option("--datamap", "-d", help="Path to datamap file", metavar="CSV_FILE_PATH")
 @click.option(
@@ -151,35 +158,49 @@ def show_file():
     "-v",
     is_flag=True,
     default=False,
-    help="Create validation report only - do not output data anywhere.",
+    help=(
+        "Create validation report only - do not output data anywhere. Cannot be used with -m/--to-master"
+        " option"
+    ),
 )
 def templates(to_master, datamap, rowlimit, inputdir, validationonly):
-    """Import data to a master file from a collection of populated templates.
-
-    BASICS
+    """Import data to a from populated templates.
 
     Import data from the template files stored in the input directory to create
-    a master.xlsx file in the output directory.
+    a master.xlsx file in the output directory using the datamap form the input directory.
 
-    The default datamap file will be used unless you pass the -d flag with a path to a different file.
-
-    TEMPLATE ROW LIMIT
+    The default datamap file (datamap.csv) will be used unless you pass the -d flag with a
+    path to a different file.
 
     By default there is a row limit of 500 when importing from a template, which means only cells in
     rows 1-500 will be imported, no matter what your datamap says. This prevents datamaps running out of
-    memory when faced with a spreadsheet containing errenous/invisible rows, which can occur without the
+    memory when handling with a spreadsheet containing errenous/invisible rows, which can occur without the
     user being aware, particularly on templates that have been subjected to length edits, years of copy
-    and pasting, styling changes and other similar chronic abuse.
+    and pasting, styling changes and other chronic abuse.
 
     This value can be changed by passing the value using the --rowlimit option  There may be an
     imperceptible performance improvement gained by reducing this value to as low as possible, but
     its primary purpose is to prevent fatal memory leaks when processing a problematic file.
+
+    Validation is carried out on the data when importing to a master according the 'type' column
+    in the datamap. Validation output is currently exported as a CSV file which is saved in the
+    output directory after import. If there is no 'type' column in the datamap, no validation
+    report is produced. Any or all lines in the datamap can be given a type (currently, only TEXT,
+    NUMBER and DATE are implemented) - the validation report will flag lines that do not have a
+    type as UNTYPED. Cells in the template which are given types in the datamap but which are empty
+    in the template will be flagged as NO VALUE RETURNED. Empty cells are also flagged as EMPTY.
+
+    If you only require validation, use the -v flag instead of -m - no master will be produced, only
+    a validation report. This may provide another almost inperceptible performance benefit as producing
+    the master file is quite expensive.
     """
     if rowlimit == 0:
         logging.critical("Row limit cannot be 0. Quitting.")
         sys.exit(1)
     if to_master and validationonly:
-        logging.critical("Cannot select both -m/--to-master and -v/--validationonly flags.")
+        logging.critical(
+            "Cannot select both -m/--to-master and -v/--validationonly flags."
+        )
         sys.exit(1)
     if validationonly:
         try:
@@ -319,9 +340,11 @@ def master(master, datamap):
 
 @report.command()
 @click.argument("target_file")
-def data_validations(target_file):
-    """Requires the path to the target spreadsheet file."""
-    logger.info(f"Getting data validations from: {target_file}")
+def excel_validations(target_file):
+    """Shows any Excel cell-validation code in the target file.
+    Requires the path to the target spreadsheet file. This is different
+    from datamaps validation using the 'type' column in the datamap file."""
+    logger.info(f"Getting Excel data validations from: {target_file}")
     try:
         report = engine_cli.report_data_validations_in_file(target_file)
     except FileNotFoundError as e:
