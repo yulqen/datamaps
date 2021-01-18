@@ -187,8 +187,12 @@ def templates(to_master, datamap, rowlimit, inputdir, validationonly):
     output directory after import. If there is no 'type' column in the datamap, no validation
     report is produced. Any or all lines in the datamap can be given a type (currently, only TEXT,
     NUMBER and DATE are implemented) - the validation report will flag lines that do not have a
-    type as UNTYPED. Cells in the template which are given types in the datamap but which are empty
-    in the template will be flagged as NO VALUE RETURNED. Empty cells are also flagged as EMPTY.
+    type as UNTYPED. Cells in the template which are empty but are required by the datamap will be
+    flagged as FAIL and NO VALUE RETURNED - the idea being that the inclusion of a datamap line
+    suggests a value is expected.
+
+    The validation report, being a simple CSV file, can and should be opened in a spreadsheet program
+    and can be filtered and sorted to the user's needs.
 
     If you only require validation, use the -v flag instead of -m - no master will be produced, only
     a validation report. This may provide another almost inperceptible performance benefit as producing
