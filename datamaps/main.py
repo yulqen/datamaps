@@ -22,6 +22,7 @@ import logging
 import sys
 from click import version_option
 from functools import partial
+from pathlib import Path
 
 from datamaps import __version__
 from engine.adapters import cli as engine_cli
@@ -126,8 +127,9 @@ def restart():
 
 
 @_config.command(
-        short_help="Shows location of the config.ini file. This differs depending "
-                    "upon your operating system.")
+    short_help="Shows location of the config.ini file. This differs depending "
+    "upon your operating system."
+)
 def show_file():
     """
     Shows location of the config file.
@@ -143,7 +145,9 @@ def show_file():
     default=False,
     help="Create master.xlsx based on populated templates and datamap.csv in input directory.",
 )
-@click.option("--datamap", "-d", help="Path to datamap file", metavar="CSV_FILE_PATH")
+@click.option(
+    "--datamap", "-d", help="Path to datamap file", type=Path, metavar="CSV_FILE_PATH"
+)
 @click.option(
     "--rowlimit",
     type=int,
@@ -151,7 +155,10 @@ def show_file():
     "Default is 500.",
 )
 @click.option(
-    "--inputdir", help="Path to input directory", metavar="INPUT_DIRECTORY_PATH"
+    "--inputdir",
+    help="Path to input directory",
+    type=Path,
+    metavar="INPUT_DIRECTORY_PATH",
 )
 @click.option(
     "--validationonly",
@@ -198,6 +205,12 @@ def templates(to_master, datamap, rowlimit, inputdir, validationonly):
     a validation report. This may provide another almost inperceptible performance benefit as producing
     the master file is quite expensive.
     """
+    if datamap:
+        if not datamap.is_absolute():
+            datamap = Path.cwd() / datamap
+    if inputdir:
+        if not inputdir.is_absolute():
+            inputdir = Path.cwd() / inputdir
     if rowlimit == 0:
         logging.critical("Row limit cannot be 0. Quitting.")
         sys.exit(1)
