@@ -1,3 +1,7 @@
+## v1.1.1
+
+* fixed bug where relative paths could not be used as CLI flags.
+
 ## v1.1.0
 
 The first major feature release to `datamaps`.
