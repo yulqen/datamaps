@@ -148,6 +148,7 @@ def show_file():
 @click.option(
     "--datamap", "-d", help="Path to datamap file", type=Path, metavar="CSV_FILE_PATH"
 )
+@click.option("--zipinput", "-z", help="Path to zip containing templates", type=Path, metavar="ZIP_PATH")
 @click.option(
     "--rowlimit",
     type=int,
@@ -170,7 +171,7 @@ def show_file():
         " option"
     ),
 )
-def templates(to_master, datamap, rowlimit, inputdir, validationonly):
+def templates(to_master, datamap, zipinput, rowlimit, inputdir, validationonly):
     """Import data to a from populated templates.
 
     Import data from the template files stored in the input directory to create
@@ -208,6 +209,9 @@ def templates(to_master, datamap, rowlimit, inputdir, validationonly):
     if datamap:
         if not datamap.is_absolute():
             datamap = Path.cwd() / datamap
+    if zipinput:
+        if not zipinput.is_absolute():
+            zipinput = Path.cwd() / zipinput
     if inputdir:
         if not inputdir.is_absolute():
             inputdir = Path.cwd() / inputdir
@@ -224,6 +228,7 @@ def templates(to_master, datamap, rowlimit, inputdir, validationonly):
             engine_cli.import_and_create_master(
                 echo_funcs=output_funcs,
                 datamap=datamap,
+                zipinput=zipinput,
                 rowlimit=rowlimit,
                 inputdir=inputdir,
                 validationonly=validationonly,
@@ -266,6 +271,7 @@ def templates(to_master, datamap, rowlimit, inputdir, validationonly):
             engine_cli.import_and_create_master(
                 echo_funcs=output_funcs,
                 datamap=datamap,
+                zipinput=zipinput,
                 rowlimit=rowlimit,
                 inputdir=inputdir,
             )
