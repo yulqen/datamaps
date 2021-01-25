@@ -1,3 +1,8 @@
+## v1.1.2
+
+* Introduced the `-z/--zipinput` flag to `datamaps import templates` command,
+    allowing user to point to a zip file containing populated templates.
+
 ## v1.1.1
 
 * fixed bug where relative paths could not be used as CLI flags.
