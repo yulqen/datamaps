@@ -36,6 +36,7 @@ from engine.exceptions import (
     NoApplicableSheetsInTemplateFiles,
     RemoveFileWithNoSheetRequiredByDatamap,
     DatamapNotCSVException,
+    NestedZipError
 )
 
 logging.basicConfig(
@@ -218,6 +219,9 @@ def templates(to_master, datamap, zipinput, rowlimit, inputdir, validationonly):
     if rowlimit == 0:
         logging.critical("Row limit cannot be 0. Quitting.")
         sys.exit(1)
+    if zipinput and inputdir:
+        logging.critical("Cannot select both --inputdir and --zipinput/-z flags.")
+        sys.exit(1)
     if to_master and validationonly:
         logging.critical(
             "Cannot select both -m/--to-master and -v/--validationonly flags."
@@ -265,6 +269,9 @@ def templates(to_master, datamap, zipinput, rowlimit, inputdir, validationonly):
         except DatamapNotCSVException as e:
             logger.critical(e)
             sys.exit(1)
+        except NestedZipError as e:
+            logger.critical(e)
+            sys.exit(1)
 
     if to_master:
         try:
@@ -305,6 +312,9 @@ def templates(to_master, datamap, zipinput, rowlimit, inputdir, validationonly):
             logger.critical(e)
             sys.exit(1)
         except DatamapNotCSVException as e:
+            logger.critical(e)
+            sys.exit(1)
+        except NestedZipError as e:
             logger.critical(e)
             sys.exit(1)
 
