@@ -1,3 +1,8 @@
+## v1.1.3
+
+* Fixed zip bug in `bcompiler-engine`, which is bumped to `v1.1.4`
+(https://github.com/yulqen/datamaps/issues/18).
+
 ## v1.1.2
 
 * Introduced the `-z/--zipinput` flag to `datamaps import templates` command,
