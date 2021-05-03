@@ -1,10 +1,11 @@
 # -*- mode: python ; coding: utf-8 -*-
 
+
 block_cipher = None
 
 
 a = Analysis(['cli.py'],
-             pathex=['C:\\Users\\lemon\\code\\python\\datamaps'],
+             pathex=['/home/lemon/code/python/datamaps'],
              binaries=[],
              datas=[],
              hiddenimports=[],

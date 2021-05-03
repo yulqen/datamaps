@@ -157,7 +157,7 @@ def test_export_with_alternative_datamap_not_csv(mock_config, resource_dir, capl
     else:
         assert (
             "Reading datamap /tmp/Documents/datamaps/input/datamap_alternate.csv"
-            not in [x[2] for x in caplog.record_tuples]
+            in [x[2] for x in caplog.record_tuples]
         )
 
 

@@ -7,4 +7,4 @@ import nox
 def tests(session):
     session.run("pip", "install", "-r", "requirements.txt", external=True)
     session.run("pip", "install", "-r", "requirements_dev.txt", external=True)
-    session.run("pytest -q")
+    session.run("pytest", "-q", "--show-capture=no", external=True)
