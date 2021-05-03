@@ -1,7 +1,8 @@
-## v1.1.3
+## v1.1.4
 
 * Fixed zip bug in `bcompiler-engine`, which is bumped to `v1.1.4`
 (https://github.com/yulqen/datamaps/issues/18).
+* Additional version bump to bring into line with `bcompiler-engine`.
 
 ## v1.1.2
 
