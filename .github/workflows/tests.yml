@@ -12,8 +12,6 @@ jobs:
           python-version: 3.8
           architecture: x64
       - run: pip install nox==2019.11.9
-      - run: pip install poetry==1.0.5
-      - run: poetry update
       - run: nox
 
   build:
@@ -34,16 +32,15 @@ jobs:
 
       - name: Install dependencies
         run: |
-          pip install poetry==1.0.5
           pip install setuptools --upgrade
-          poetry update
 
       - name: Pip list
         run: pip list
 
       - name: Build with pyinstaller
         #        run: python -m PyInstaller.__main__ cli.py --name "dm" --onefile
-        run: poetry run pyinstaller cli.py --name "dm" --onefile
+        #run: poetry run pyinstaller cli.py --name "dm" --onefile
+        run: pyinstaller cli.py --name "dm" --onefile
 
       - uses: actions/upload-artifact@master
         with:
