@@ -1,4 +1,56 @@
 import datetime
+import calendar
+
+
+class Month:
+    """An object representing a calendar Month."""
+
+    _end_ints = {
+        1: 31,
+        2: 28,
+        3: 31,
+        4: 30,
+        5: 31,
+        6: 30,
+        7: 31,
+        8: 31,
+        9: 30,
+        10: 31,
+        11: 30,
+        12: 31,
+    }
+
+    def __init__(self, month: int, year: int):
+        self._month = month
+        self.year = year
+
+    @property
+    def start_date(self):
+        return datetime.date(self.year, self._month, 1)
+
+    @property
+    def end_date(self):
+        if self._month == 2 and calendar.isleap(self.year):
+            return datetime.date(self.year, self._month, Month._end_ints[self._month] + 1)
+        else:
+            return datetime.date(self.year, self._month, Month._end_ints[self._month])
+
+    @property
+    def month(self):
+        return [
+            "January",
+            "February",
+            "March",
+            "April",
+            "May",
+            "June",
+            "July",
+            "August",
+            "September",
+            "October",
+            "November",
+            "December",
+        ][self._month - 1]
 
 
 class FinancialYear:
@@ -27,26 +79,22 @@ class FinancialYear:
 
     @property
     def q1(self) -> datetime.date:
-        """Quarter 1 as a :py:class:`datetime.date` object
-        """
+        """Quarter 1 as a :py:class:`datetime.date` object"""
         return self._q1
 
     @property
     def q2(self):
-        """Quarter 2 as a :py:class:`datetime.date` object
-        """
+        """Quarter 2 as a :py:class:`datetime.date` object"""
         return self._q2
 
     @property
     def q3(self):
-        """Quarter 3 as a :py:class:`datetime.date` object
-        """
+        """Quarter 3 as a :py:class:`datetime.date` object"""
         return self._q3
 
     @property
     def q4(self):
-        """Quarter 4 as a :py:class:`datetime.date` object
-        """
+        """Quarter 4 as a :py:class:`datetime.date` object"""
         return self._q4
 
     def __str__(self):
@@ -54,7 +102,6 @@ class FinancialYear:
 
     def _generate_quarters(self):
         self.quarters = [Quarter(x, self.year) for x in range(1, 5)]
-
 
     def __repr__(self):
         return f"FinancialYear({self.year})"
@@ -68,20 +115,20 @@ class Quarter:
         quarter (int): e.g.1, 2, 3 or 4
         year (int): e.g. 2013
     """
+
     _start_months = {
-        1: (4, 'April'),
-        2: (7, 'July'),
-        3: (10, 'October'),
-        4: (1, 'January')
+        1: (4, "April"),
+        2: (7, "July"),
+        3: (10, "October"),
+        4: (1, "January"),
     }
 
     _end_months = {
-        1: (6, 'June', 30),
-        2: (9, 'September', 30),
-        3: (12, 'December', 31),
-        4: (3, 'March', 31),
+        1: (6, "June", 30),
+        2: (9, "September", 30),
+        3: (12, "December", 31),
+        4: (3, "March", 31),
     }
-
 
     def __init__(self, quarter: int, year: int) -> None:
 
@@ -93,7 +140,9 @@ class Quarter:
         if isinstance(year, int) and (year in range(1950, 2100)):
             self.year = year
         else:
-            raise ValueError("Year must be between 1950 and 2100 - surely that will do?")
+            raise ValueError(
+                "Year must be between 1950 and 2100 - surely that will do?"
+            )
 
         self.start_date = self._start_date(self.quarter, self.year)
         self.end_date = self._end_date(self.quarter, self.year)
@@ -116,6 +165,5 @@ class Quarter:
 
     @property
     def fy(self):
-        """Return a :py:class:`core.temporal.FinancialYear` object.
-        """
+        """Return a :py:class:`core.temporal.FinancialYear` object."""
         return FinancialYear(self.year)

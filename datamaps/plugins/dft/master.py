@@ -158,6 +158,14 @@ class Master:
         return self._quarter
 
     @property
+    def month(self):
+        """
+        Returns the ``Month`` object associated with the ``Master``.
+        """
+        pass
+
+
+    @property
     def filename(self):
         """The filename of the master xlsx file, e.g. ``master_1_2017.xlsx``.
         """
