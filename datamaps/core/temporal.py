@@ -22,22 +22,22 @@ class Month:
     }
 
     def __init__(self, month: int, year: int):
-        self._month = month
+        self._month_int = month
         self.year = year
 
     @property
     def start_date(self):
-        return datetime.date(self.year, self._month, 1)
+        return datetime.date(self.year, self._month_int, 1)
 
     @property
     def end_date(self):
-        if self._month == 2 and calendar.isleap(self.year):
-            return datetime.date(self.year, self._month, Month._end_ints[self._month] + 1)
+        if self._month_int == 2 and calendar.isleap(self.year):
+            return datetime.date(self.year, self._month_int, Month._end_ints[self._month_int] + 1)
         else:
-            return datetime.date(self.year, self._month, Month._end_ints[self._month])
+            return datetime.date(self.year, self._month_int, Month._end_ints[self._month_int])
 
     @property
-    def month(self):
+    def name(self):
         return [
             "January",
             "February",
@@ -51,7 +51,10 @@ class Month:
             "October",
             "November",
             "December",
-        ][self._month - 1]
+        ][self._month_int - 1]
+
+    def __repr__(self):
+        return f"Month({self.name})"
 
 
 class FinancialYear:

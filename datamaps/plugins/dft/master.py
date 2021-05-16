@@ -217,9 +217,9 @@ class Master:
             12: "December",
         }
         return [
-            m.month
+            m
             for m in self.quarter.months
-            if m.month == months[self._declared_month]
+            if m.name == months[self._declared_month]
         ][0]
 
     @property

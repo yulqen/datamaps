@@ -22,10 +22,11 @@ def test_get_project_data_using_month(master):
     assert (
         m["Chutney Bridge.xlsm"]["Project/Programme Name"] == "Chutney Bridge Ltd"
     )
-    assert m.month == "July"
-    assert m2.month == "August"
-    assert m3.month == "September"
-    assert m4.month == "October"
+    assert isinstance(m.month, Month)
+    assert m.month.name == "July"
+    assert m2.month.name == "August"
+    assert m3.month.name == "September"
+    assert m4.month.name == "October"
     assert m.quarter.quarter == 2
     assert m2.quarter.quarter == 2
     assert m3.quarter.quarter == 2
@@ -39,6 +40,7 @@ def test_get_project_data_using_month(master):
 def test_quarter_objects_have_months():
     q = Quarter(1, 2021)
     q2 = Quarter(4, 2021)
+    assert isinstance(q.months[0], Month)
     assert q.months[0].start_date == datetime.date(2021, 4, 1)
     assert q.months[1].start_date == datetime.date(2021, 5, 1)
     assert q.months[2].start_date == datetime.date(2021, 6, 1)
@@ -53,9 +55,9 @@ def test_quarter_objects_have_months():
 
 def test_month():
     m1 = Month(1, 2021)
-    assert m1.month == "January"
+    assert m1.name == "January"
     m2 = Month(9, 2021)
-    assert m2.month == "September"
+    assert m2.name == "September"
     assert m2.start_date == datetime.date(2021, 9, 1)
     assert m2.end_date == datetime.date(2021, 9, 30)
     # test leap year
