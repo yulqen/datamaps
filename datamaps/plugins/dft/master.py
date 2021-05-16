@@ -151,7 +151,9 @@ class Master:
         ..etc
     """
 
-    def __init__(self, quarter: Quarter, path: str, declared_month=None) -> None:
+    def __init__(
+        self, quarter: Quarter, path: str, declared_month: Optional[int] = None
+    ) -> None:
         self._quarter = quarter
         self._declared_month = declared_month
         self.path = path
