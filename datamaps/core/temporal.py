@@ -1,5 +1,6 @@
-import datetime
 import calendar
+import datetime
+import itertools
 
 
 class Month:
@@ -146,6 +147,22 @@ class Quarter:
 
         self.start_date = self._start_date(self.quarter, self.year)
         self.end_date = self._end_date(self.quarter, self.year)
+        self.months = []
+        self._populate_months()
+
+    def _populate_months(self):
+        months_ints = []
+        start_int = Quarter._start_months[self.quarter][0]
+        strt = itertools.count(start_int)
+        for x in range(3):
+            months_ints.append(next(strt))
+        for m in months_ints:
+            if self.quarter == 4:
+                year = self.year + 1
+            else:
+                year = self.year
+            self.months.append(Month(m, year))
+
 
     def __str__(self):
         return f"Q{self.quarter} {str(self.year)[2:]}/{str(self.year + 1)[2:]}"

@@ -162,7 +162,8 @@ class Master:
         """
         Returns the ``Month`` object associated with the ``Master``.
         """
-        pass
+        breakpoint()
+        return [m.month for m in self.quarter.months]
 
 
     @property
