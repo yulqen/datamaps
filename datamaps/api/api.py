@@ -35,5 +35,5 @@ def project_data_from_master_month_api(master_file: str, month: int, year: int):
     else:
         pass
         # TODO: raise exception here
-    m = Master(Quarter(quarter, year), master_file)
+    m = Master(Quarter(quarter, year), master_file, month)
     return m

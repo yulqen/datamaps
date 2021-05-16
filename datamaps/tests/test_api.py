@@ -15,13 +15,22 @@ def test_get_project_data(master):
 
 
 def test_get_project_data_using_month(master):
-    master = project_data_from_master_month(master, 7, 2021)
+    m = project_data_from_master_month(master, 7, 2021)
+    m2 = project_data_from_master_month(master, 8, 2021)
+    m3 = project_data_from_master_month(master, 9, 2021)
+    m4 = project_data_from_master_month(master, 10, 2021)
     assert (
-        master["Chutney Bridge.xlsm"]["Project/Programme Name"] == "Chutney Bridge Ltd"
+        m["Chutney Bridge.xlsm"]["Project/Programme Name"] == "Chutney Bridge Ltd"
     )
-    assert master.month == "July"
-    assert master.quarter.quarter == 2
-    assert master.quarter.end_date == datetime.date(2021, 9, 30)
+    assert m.month == "July"
+    assert m2.month == "August"
+    assert m3.month == "September"
+    assert m4.month == "October"
+    assert m.quarter.quarter == 2
+    assert m2.quarter.quarter == 2
+    assert m3.quarter.quarter == 2
+    assert m4.quarter.quarter == 3
+    assert m.quarter.end_date == datetime.date(2021, 9, 30)
 
 
 def test_quarter_objects_have_months():
