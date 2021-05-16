@@ -1,3 +1,7 @@
+## v1.1.5
+
+* Additional version bump to bring into line with `bcompiler-engine`.
+
 ## v1.1.4
 
 * Fixed zip bug in `bcompiler-engine`, which is bumped to `v1.1.4`
