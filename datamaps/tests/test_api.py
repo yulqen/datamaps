@@ -31,6 +31,9 @@ def test_get_project_data_using_month(master):
     assert m3.quarter.quarter == 2
     assert m4.quarter.quarter == 3
     assert m.quarter.end_date == datetime.date(2021, 9, 30)
+    assert m2.quarter.end_date == datetime.date(2021, 9, 30)
+    assert m3.quarter.end_date == datetime.date(2021, 9, 30)
+    assert m4.quarter.end_date == datetime.date(2021, 12, 31)
 
 
 def test_quarter_objects_have_months():
