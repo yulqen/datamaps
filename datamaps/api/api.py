@@ -36,5 +36,9 @@ def project_data_from_master_month_api(master_file: str, month: int, year: int):
     else:
         pass
         # TODO: raise exception here
+
+    # from that, we can work out what quarter year we are dealing with
+    if quarter == 4:
+        year = year - 1
     m = Master(Quarter(quarter, year), master_file, month)
     return m
