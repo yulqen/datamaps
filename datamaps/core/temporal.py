@@ -32,9 +32,13 @@ class Month:
     @property
     def end_date(self):
         if self._month_int == 2 and calendar.isleap(self.year):
-            return datetime.date(self.year, self._month_int, Month._end_ints[self._month_int] + 1)
+            return datetime.date(
+                self.year, self._month_int, Month._end_ints[self._month_int] + 1
+            )
         else:
-            return datetime.date(self.year, self._month_int, Month._end_ints[self._month_int])
+            return datetime.date(
+                self.year, self._month_int, Month._end_ints[self._month_int]
+            )
 
     @property
     def name(self):
@@ -112,8 +116,10 @@ class FinancialYear:
 
 
 class Quarter:
-    """An object representing a financial quarter. This is mainly required for building
-    a :py:class:`core.master.Master` object.
+    """An object representing a financial quarter.
+
+    This is mainly required for building a :py:class:`core.master.Master`
+    object.
 
     Args:
         quarter (int): e.g.1, 2, 3 or 4
@@ -165,7 +171,6 @@ class Quarter:
             else:
                 year = self.year
             self.months.append(Month(m, year))
-
 
     def __str__(self):
         return f"Q{self.quarter} {str(self.year)[2:]}/{str(self.year + 1)[2:]}"

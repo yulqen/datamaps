@@ -14,6 +14,7 @@ def project_data_from_master_api(master_file: str, quarter: int, year: int):
     m = Master(Quarter(quarter, year), master_file)
     return m
 
+
 def project_data_from_master_month_api(master_file: str, month: int, year: int):
     """Create a Master object directly without the need to explicitly pass
     a Month object.

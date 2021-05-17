@@ -1,8 +1,7 @@
 import datetime
-import pytest
 
 from ..api import project_data_from_master, project_data_from_master_month
-from ..core.temporal import Quarter, Month
+from ..core.temporal import Month
 
 
 def test_get_project_data(master):
@@ -19,9 +18,7 @@ def test_get_project_data_using_month(master):
     m2 = project_data_from_master_month(master, 8, 2021)
     m3 = project_data_from_master_month(master, 9, 2021)
     m4 = project_data_from_master_month(master, 10, 2021)
-    assert (
-        m["Chutney Bridge.xlsm"]["Project/Programme Name"] == "Chutney Bridge Ltd"
-    )
+    assert m["Chutney Bridge.xlsm"]["Project/Programme Name"] == "Chutney Bridge Ltd"
     assert isinstance(m.month, Month)
     assert m.month.name == "July"
     assert m2.month.name == "August"
