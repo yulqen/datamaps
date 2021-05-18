@@ -8,6 +8,6 @@ thus making `bcompiler-engine` palatable to non-technical users, and users who
 do not have access to a Python installation.
 
 
-Details, including links to the downloadable version of this software are be
+Details and documentation, including links to the downloadable version of this software are be
 found at [Datamaps - Twenty Four
-Software](https://www.datamaps.twentyfoursoftware.com).
+Software](https://twentyfoursoftware.com/datamaps/).
