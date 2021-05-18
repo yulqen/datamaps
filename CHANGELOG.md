@@ -1,3 +1,9 @@
+## v1.1.6
+
+* Added the `Month()` object to `datamaps.api`. You can now assign a month
+  to a `Master()` object using the function
+  `datamaps.api.project_data_from_master_month`.
+
 ## v1.1.5
 
 * Additional version bump to bring into line with `bcompiler-engine`.
