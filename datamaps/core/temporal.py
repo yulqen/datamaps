@@ -1,6 +1,22 @@
 import calendar
 import datetime
 import itertools
+from typing import List
+
+MONTHS = [
+    "January",
+    "February",
+    "March",
+    "April",
+    "May",
+    "June",
+    "July",
+    "August",
+    "September",
+    "October",
+    "November",
+    "December",
+]
 
 
 class Month:
@@ -22,40 +38,27 @@ class Month:
     }
 
     def __init__(self, month: int, year: int):
-        self._month_int = month
+        self.month_int = month
         self.year = year
 
     @property
     def start_date(self):
-        return datetime.date(self.year, self._month_int, 1)
+        return datetime.date(self.year, self.month_int, 1)
 
     @property
     def end_date(self):
-        if self._month_int == 2 and calendar.isleap(self.year):
+        if self.month_int == 2 and calendar.isleap(self.year):
             return datetime.date(
-                self.year, self._month_int, Month._end_ints[self._month_int] + 1
+                self.year, self.month_int, Month._end_ints[self.month_int] + 1
             )
         else:
             return datetime.date(
-                self.year, self._month_int, Month._end_ints[self._month_int]
+                self.year, self.month_int, Month._end_ints[self.month_int]
             )
 
     @property
     def name(self):
-        return [
-            "January",
-            "February",
-            "March",
-            "April",
-            "May",
-            "June",
-            "July",
-            "August",
-            "September",
-            "October",
-            "November",
-            "December",
-        ][self._month_int - 1]
+        return MONTHS[self.month_int - 1]
 
     def __repr__(self):
         return f"Month({self.name})"
@@ -86,7 +89,7 @@ class FinancialYear:
         self.end_date = self.q4.end_date
 
     @property
-    def q1(self) -> datetime.date:
+    def q1(self):
         """Quarter 1 as a :py:class:`datetime.date` object"""
         return self._q1
 
@@ -156,7 +159,7 @@ class Quarter:
 
         self.start_date = self._start_date(self.quarter, self.year)
         self.end_date = self._end_date(self.quarter, self.year)
-        self.months = []
+        self.months: List[Month] = []
         self._populate_months()
 
     def _populate_months(self):

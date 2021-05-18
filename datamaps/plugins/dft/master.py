@@ -1,14 +1,13 @@
-import re
 import datetime
 import logging
+import re
 import unicodedata
 from pathlib import Path
-from typing import List, Tuple, Iterable, Optional, Any
+from typing import Any, Iterable, List, Optional, Tuple
 
+from datamaps.core.temporal import Quarter
 from datamaps.plugins.dft.portfolio import project_data_from_master
 from datamaps.process.cleansers import DATE_REGEX_4
-from datamaps.core.temporal import Quarter
-
 from openpyxl import load_workbook
 
 logger = logging.getLogger("bcompiler.utils")
@@ -157,9 +156,14 @@ class Master:
         self._quarter = quarter
         self._declared_month = declared_month
         self.path = path
+        if self._declared_month:
+            idxs = [x.month_int for x in self._quarter.months]
+            m_idx = idxs.index(self._declared_month)
+            self.year = self._quarter.months[m_idx].year
+        else:
+            self.year = self._quarter.year
         self._data = project_data_from_master(self.path)
         self._project_titles = [item for item in self.data.keys()]
-        self.year = self._quarter.year
 
     def __getitem__(self, project_name):
         return ProjectData(self._data[project_name])
@@ -217,9 +221,7 @@ class Master:
             12: "December",
         }
         return [
-            m
-            for m in self.quarter.months
-            if m.name == months[self._declared_month]
+            m for m in self.quarter.months if m.name == months[self._declared_month]
         ][0]
 
     @property

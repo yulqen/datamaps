@@ -30,6 +30,7 @@ def test_quarter_objects_have_months():
 def test_month():
     m1 = Month(1, 2021)
     assert m1.name == "January"
+    assert m1.year == 2021
     m2 = Month(9, 2021)
     assert m2.name == "September"
     assert m2.start_date == datetime.date(2021, 9, 1)
