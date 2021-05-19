@@ -1,3 +1,8 @@
+## v1.1.7
+
+* Updated `repr()` for `Master` object to account for it relating to a
+  month or a quarter.
+
 ## v1.1.6
 
 * Added the `Month()` object to `datamaps.api`. You can now assign a month

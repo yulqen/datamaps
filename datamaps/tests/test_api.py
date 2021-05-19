@@ -19,6 +19,13 @@ def test_get_project_data_using_month(master):
     m3 = project_data_from_master_month(master, 9, 2021)
     m4 = project_data_from_master_month(master, 10, 2021)
     m5 = project_data_from_master_month(master, 2, 2021)  # this is q4
+    m6 = project_data_from_master_month(master, 5, 2030)  # this is q4
+    assert "Master for Month(July) - 2021" in repr(m)
+    assert "Master for Month(August) - 2021" in repr(m2)
+    assert "Master for Month(September) - 2021" in repr(m3)
+    assert "Master for Month(October) - 2021" in repr(m4)
+    assert "Master for Month(February) - 2021" in repr(m5)
+    assert "Master for Month(May) - 2030" in repr(m6)
     assert m["Chutney Bridge.xlsm"]["Project/Programme Name"] == "Chutney Bridge Ltd"
     assert isinstance(m.month, Month)
     assert m.month.name == "July"

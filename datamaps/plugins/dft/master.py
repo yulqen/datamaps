@@ -272,4 +272,7 @@ class Master:
             return False
 
     def __repr__(self):
-        return f"Master({self.path}, {self.quarter.quarter}, {self.quarter.year})"
+        if self._declared_month:
+            return f"Master for {self.month} - {self.month.year}({self.path}, {self.quarter.quarter}, {self.quarter.year})"
+        else:
+            return f"Master({self.path}, {self.quarter.quarter}, {self.quarter.year})"
