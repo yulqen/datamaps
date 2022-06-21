@@ -1,4 +1,5 @@
 pytest
+pdbpp
 pytest-cov==2.7.1
 coverage==5.1
 nox==2019.11.9
