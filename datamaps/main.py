@@ -81,7 +81,7 @@ def cli(config, verbose):
         etc...
     """
     click.secho(
-        f"Welcome to datamaps {__version__} © 2021 Twenty Four Software", fg="yellow"
+        f"Welcome to datamaps {__version__} © 2022 Twenty Four Software", fg="yellow"
     )
     config.verbose = verbose
     engine_config.initialise()
