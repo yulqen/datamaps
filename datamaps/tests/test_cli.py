@@ -2,11 +2,10 @@ import logging
 import os
 import shutil
 from pathlib import Path
+from sys import platform
 
 import pytest
 from click.testing import CliRunner
-from sys import platform
-
 from datamaps.main import _import, export
 
 
@@ -139,7 +138,21 @@ def test_export_with_alternative_datamap(mock_config, resource_dir, caplog):
         x[2] for x in caplog.record_tuples
     ]
 
+def test_export_with_flag_template(mock_config, resource_dir):
+    runner = CliRunner()
+    mock_config.initialise()
+    _copy_resources_to_input(mock_config, resource_dir)
+    _master_file = os.path.join(mock_config.PLATFORM_DOCS_DIR, "input", "master.xlsx")
+    _dm_file = os.path.join(mock_config.PLATFORM_DOCS_DIR, "input", "datamap_short.csv")
+    result = runner.invoke(
+        export, ["master", _master_file, "-d", _dm_file, "-t", "/tmp/Documents/datamaps/input/blank_template.xlsm"]
+    )
+    # assert result.exit_code == 0
+    output = mock_config.PLATFORM_DOCS_DIR / "output" / "Chutney Bridge.xlsm"
+    assert output.is_file()
 
+
+@pytest.mark.skip("TODO")
 def test_export_with_alternative_datamap_not_csv(mock_config, resource_dir, caplog):
     runner = CliRunner()
     mock_config.initialise()

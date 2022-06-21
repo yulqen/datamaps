@@ -17,27 +17,24 @@ AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
 LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
 IN THE SOFTWARE. """
-import click
 import logging
 import sys
-from click import version_option
 from functools import partial
 from pathlib import Path
 
-from datamaps import __version__
+import click
+from click import version_option
 from engine.adapters import cli as engine_cli
 from engine.config import Config as engine_config
-from engine.exceptions import (
-    DatamapFileEncodingError,
-    MalFormedCSVHeaderException,
-    MissingCellKeyError,
-    MissingLineError,
-    MissingSheetFieldError,
-    NoApplicableSheetsInTemplateFiles,
-    RemoveFileWithNoSheetRequiredByDatamap,
-    DatamapNotCSVException,
-    NestedZipError
-)
+from engine.exceptions import (DatamapFileEncodingError,
+                               DatamapNotCSVException,
+                               MalFormedCSVHeaderException,
+                               MissingCellKeyError, MissingLineError,
+                               MissingSheetFieldError, NestedZipError,
+                               NoApplicableSheetsInTemplateFiles,
+                               RemoveFileWithNoSheetRequiredByDatamap)
+
+from datamaps import __version__
 
 logging.basicConfig(
     level=logging.INFO,
@@ -324,9 +321,12 @@ def templates(to_master, datamap, zipinput, rowlimit, inputdir, validationonly):
 # @click.argument("blank")
 @click.argument("master", metavar="MASTER_FILE_PATH")
 @click.option(
-    "--datamap", "-d", help="Path to datamap (CSV) file.", metavar="CSV_FILE_PATH"
+    "--datamap", "-d", help="Path to datamap (CSV) file.", type=Path, metavar="CSV_FILE_PATH"
 )
-def master(master, datamap):
+@click.option(
+    "--template", "-t", help="Path to blank template (spreadsheet) file.", type=Path,  metavar="TEMPLATE_FILE_PATH"
+)
+def master(master, datamap, template):
     """Export data from a Master file.
 
     Export data from a master file (at MASTER_FILE_PATH). A new populated template
@@ -338,18 +338,26 @@ def master(master, datamap):
 
     blank_fn = engine_config.config_parser["DEFAULT"]["blank file name"]
     if datamap:
-        datamap_fn = datamap
+        if not datamap.is_absolute():
+            datamap_pth = Path.cwd() / datamap
+        else:
+            datamap_pth = datamap
     else:
-        datamap_fn = engine_config.config_parser["DEFAULT"]["datamap file name"]
+        datamap_pth = input_dir / engine_config.config_parser["DEFAULT"]["datamap file name"]
+    if template:
+        if not template.is_absolute():
+            blank = Path.cwd() / template
+        else:
+            blank = template
+    else:
+        blank = input_dir / blank_fn
 
-    blank = input_dir / blank_fn
-    datamap = input_dir / datamap_fn
 
     #   click.secho(f"EXPORTING master {master} to templates based on {blank}...")
     be_logger.info(f"Exporting master {master} to templates based on {blank}.")
 
     try:
-        engine_cli.write_master_to_templates(blank, datamap, master)
+        engine_cli.write_master_to_templates(blank, datamap_pth, master)
     except (FileNotFoundError, RuntimeError) as e:
         logger.critical(str(e))
         sys.exit(1)
