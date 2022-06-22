@@ -1,5 +1,27 @@
 [build-system]
-requires = ["setuptools", "wheel"]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[project]
+name = "datamaps"
+version = "1.1.8"
+authors = [
+    { name="Matthew Lemon", email="matt@matthewlemon.com" },
+]
+description='Collect and clean data using Excel spreadsheets.'
+readme = "README.md"
+requires_python = ">=3.7"
+classifiers=[
+    "Environment :: Console",
+    "Intended Audience :: Other Audience",
+    "Programming Language :: Python :: 3.7",
+    "Programming Language :: Python :: 3.8",
+    "Programming Language :: Python :: 3.9",
+    "Topic :: Text Processing",
+]
+
+[project_urls]
+"Homepage" = 'https://github.com/hammerheadlemon/datamaps'
 
 [tool.poetry]
 name = "datamaps"
