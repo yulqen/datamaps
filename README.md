@@ -10,4 +10,4 @@ do not have access to a Python installation.
 
 Details and documentation, including links to the downloadable version of this software are be
 found at [Datamaps - Twenty Four
-Software](https://twentyfoursoftware.com/datamaps/).
+Software](https://datamaps.twentyfoursoftware.com).
