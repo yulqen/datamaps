@@ -4,11 +4,19 @@ build-backend = "hatchling.build"
 
 [project]
 name = "datamaps"
-version = "1.1.8"
+version = "1.1.9"
 authors = [
     { name="Matthew Lemon", email="matt@matthewlemon.com" },
 ]
 description='Collect and clean data using Excel spreadsheets.'
+entry_points={'console_scripts': [
+    'datamaps = datamaps.main:cli'
+]},
+install_requires=[
+    'click',
+    'python-dateutil',
+    'bcompiler-engine>=1.1.5'
+],
 readme = "README.md"
 requires_python = ">=3.7"
 classifiers=[
