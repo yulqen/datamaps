@@ -2,6 +2,9 @@
 requires = ["hatchling"]
 build-backend = "hatchling.build"
 
+[project.scripts]
+datamaps = 'datamaps.main:cli'
+
 [project]
 name = "datamaps"
 version = "1.1.9"
@@ -9,16 +12,13 @@ authors = [
     { name="Matthew Lemon", email="matt@matthewlemon.com" },
 ]
 description='Collect and clean data using Excel spreadsheets.'
-entry_points={'console_scripts': [
-    'datamaps = datamaps.main:cli'
-]},
-install_requires=[
+dependencies = [
     'click',
     'python-dateutil',
     'bcompiler-engine>=1.1.5'
-],
+]
 readme = "README.md"
-requires_python = ">=3.7"
+requires-python = ">=3.7"
 classifiers=[
     "Environment :: Console",
     "Intended Audience :: Other Audience",
@@ -29,13 +29,13 @@ classifiers=[
 ]
 
 [project_urls]
-"Homepage" = 'https://github.com/hammerheadlemon/datamaps'
+"Homepage" = 'https://github.com/yulqen/datamaps'
 
 [tool.poetry]
 name = "datamaps"
 version = "1.1.7"
-homepage = "https://github.com/hammerheadlemon/datamaps"
-repository = "https://github.com/hammerheadlemon/datamaps"
+homepage = "https://github.com/yulqen/datamaps"
+repository = "https://github.com/yulqen/datamaps"
 license = "MIT"
 readme = "README.md"
 description = "Collect and clean data using Excel spreadsheets."
