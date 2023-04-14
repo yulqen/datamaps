@@ -188,7 +188,8 @@ class Cleanser:
         """
         Handles dates in "03/05/2016" format.
         """
-        # TODO: separate function needed here to assert that month values are in 'MM' format
+        # TODO: separate function needed here to assert that month values are in 'MM'
+        # format
         # TODO: investigate rules for the year
         m = re.match(regex, self.string)
         if int(m.groups()[-1]) in range(1965, 1967):
